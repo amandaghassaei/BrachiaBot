@@ -1,7 +1,8 @@
 function simulate_brachia_bot()
 
     %dynamics options
-    options = struct('fixed_wrist', true);
+    fixed_wrist = true;
+    dynamics_options = struct('fixed_wrist', fixed_wrist);
 
     %fixed params
     m1 = 0.2;
@@ -12,8 +13,8 @@ function simulate_brachia_bot()
     I2 = 0.05;
     I3 = I2;
     I4 = I1;
-    l1 = 0.2;
-    l2 = 1;
+    l1 = 0.02;
+    l2 = 0.1;
     l3 = l2;
     l4 = l1;
     c1 = 0.5*l1;
@@ -22,6 +23,12 @@ function simulate_brachia_bot()
     c4 = 0.5*l4;
     g = 9.81;
     
+    
+    %lattice params
+    lattice_pitch  = 0.2;% 200 mm
+    lattice_options = struct('lattice_pitch', lattice_pitch);
+    
+    % initial conditions
     th1_0 = 1.5;
     th2_0 = 0;
     th3_0 = 0;
@@ -37,7 +44,7 @@ function simulate_brachia_bot()
     inttol = 1e-6;
     z0 = [th1_0; th2_0; th3_0; th4_0; dth1_0; dth2_0; dth3_0; dth4_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
-    sol = ode45(@dynamics,tspan,z0,opts,p, options);
+    sol = ode45(@dynamics,tspan,z0,opts,p, dynamics_options);
 
     %compute energy
     E = energy_brachia_bot(sol.y, p);
@@ -72,23 +79,32 @@ function simulate_brachia_bot()
     
     %animate
     figure(5); clf;
-    animateSol(sol,p);
+    animateSol(sol,p,lattice_options);
 
 end
 
-function animateSol(sol,p)
+function animateSol(sol, p, options)
     % Prepare plot handles
     hold on
-    h_link1 = plot([0],[0],'LineWidth',5);
-    h_link2 = plot([0],[0],'LineWidth',5);
-    h_link3 = plot([0],[0],'LineWidth',5);
-    h_link4 = plot([0],[0],'LineWidth',5);
+    line_width = 0.5;
+    h_link1 = plot([0],[0], 'LineWidth', line_width);
+    h_link2 = plot([0],[0], 'LineWidth', line_width);
+    h_link3 = plot([0],[0], 'LineWidth', line_width);
+    h_link4 = plot([0],[0], 'LineWidth', line_width);
     xlabel('x')
     ylabel('y');
     h_title = title('t=0.0s');
     
+    %plot lattice
+    pitch = options.lattice_pitch;
+    for i = -3:3
+        plot(i*pitch, 0, 'o', 'MarkerEdgeColor', 'k');
+    end
+    
+    
+    
     axis equal
-    axis([-2 2 -2 1]);
+    axis([-0.4 0.4 -0.4 0.1]);
     
     %Step through and update animation
     for t = 0:.01:sol.x(end)
