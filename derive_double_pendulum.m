@@ -1,17 +1,9 @@
 
 %setup variables
-syms t th1 th2 dth1 dth2 ddth1 ddth2 real
-syms m1 m2 m3 m4 I1 I2 I3 I4 l_O_m1 l_B_m2 l_A_m3 l_C_m4  g real
-syms l_OA l_OB l_AC l_DE real 
-syms tau1 tau2 Fx Fy real
-
-syms th1 th2 dth1 dth2 ddth1 ddth2 real
-syms m1 m2 I1 I2 g real
-syms l1 l2 c1 c2 r_B r_C real
-syms tau1 tau2 real
-
-syms rB rC theta1 theta2 dtheta1 dtheta2 ddtheta1 ddtheta2 t1 t2 I1 I2 l1 l2 c1 c2 m1 m2 g real
-syms kappa1 kappa2 k3 theta1O theta2O rx ry lO real
+syms th1 th2 th3 dth1 dth2 dth3 ddth1 ddth2 ddth3 real
+syms m1 m2 m3 I1 I2 I3 g real
+syms l1 l2 l3 c1 c2 c3 r_B r_C r_D real
+syms tau1 tau2 tau3 real
 
 % Group them
 q   = [th1; th2];% generalized coordinates
