@@ -5,19 +5,19 @@ function simulate_brachia_bot()
     dynamics_options = struct('fixed_wrist', fixed_wrist);
 
     %fixed params
-    m1 = 0.2;
+    m1 = 0.1;
     m2 = 1;
     m3 = m2;
     m4 = m1;
-    I1 = 0.05;
-    I2 = 0.05;
-    I3 = I2;
-    I4 = I1;
-    l1 = 0.02;
+    l1 = 0.05;%length of links
     l2 = 0.1;
     l3 = l2;
     l4 = l1;
-    c1 = 0.5*l1;
+    I1 = 1/3*m1*l1^2;%model as rod rotating around one end
+    I2 = 1/3*m2*l2^2;
+    I3 = 1/3*m3*l3^2;
+    I4 = 1/3*m4*l4^2;
+    c1 = 0.5*l1;%location of center of mass along link
     c2 = 0.5*l2;
     c3 = 0.5*l3;
     c4 = 0.5*l4;
