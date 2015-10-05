@@ -3,24 +3,30 @@ function simulate_double_pendulum()
     %fixed params
     m1 = 1;
     m2 = 1;
+    m3 = 1;
     I1 = 0.05;
     I2 = 0.05;
+    I3 = 0.05;
     l1 = 1;
     l2 = 0.5;
+    l3 = 1;
     c1 = 0.5;
     c2 = 0.25;
+    c3 = 0.5;
     g = 9.81;
     
     th1_0 = 3;
     th2_0 = 0;
+    th3_0 = 0;
     dth1_0 = 0;
     dth2_0 = 0;
+    dth3_0 = 0;
     
-    p   = [l1; l2; c1; c2; m1; m2; I1; I2; g];% parameters array
+    p   = [l1; l2; l3; c1; c2; c3; m1; m2; m3; I1; I2; I3; g];% parameters array
     
     tspan = [0 10];
     inttol = 1e-6;
-    z0 = [th1_0; th2_0; dth1_0; dth2_0];
+    z0 = [th1_0; th2_0; th3_0; dth1_0; dth2_0; dth3_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
     sol = ode45(@dynamics,tspan,z0,opts,p);
 
@@ -67,20 +73,22 @@ function dz = dynamics(t, z, p)
     A = A_double_pendulum(z,p);
     
     % Get forces
-    dtheta1 = z(3);
-    dtheta2 = z(4);
-    t1 = 0;%-dtheta1;
-    t2 = 0;%-dtheta2;
-    u = [t1 t2]';
-    b = b_double_pendulum(z,u, p);
+    dtheta1 = z(4);
+    dtheta2 = z(5);
+    dtheta3 = z(6);
+    tau1 = 0;
+    tau2 = 0;
+    tau3 = 0;
+    u = [tau1; tau2; tau3];
+    b = b_double_pendulum(z, u, p);
     
     % Solve for qdd
     qdd = A\b;
     dz = 0*z;
     
     % Form dz
-    dz(1:2) = z(3:4);
-    dz(3:4) = qdd;
+    dz(1:3) = z(4:6);
+    dz(4:6) = qdd;
 
 end
 
@@ -89,6 +97,7 @@ function animateSol(sol,p)
     hold on
     h_link1 = plot([0],[0],'LineWidth',5);
     h_link2 = plot([0],[0],'LineWidth',5);
+    h_link3 = plot([0],[0],'LineWidth',5);
     xlabel('x')
     ylabel('y');
     h_title = title('t=0.0s');
@@ -102,18 +111,23 @@ function animateSol(sol,p)
         z = interp1(sol.x',sol.y',t)';
         keypoints = keypoints_double_pendulum(z,p);
 
-        rB = keypoints(1:2); % Vector to joint B
-        rC = keypoints(3:4); % Vector to joint C
+        r_B = keypoints(1:2); % Vector to joint B
+        r_C = keypoints(3:4); % Vector to joint C
+        r_D = keypoints(5:6); % Vector to joint D
 
         set(h_title,'String',  sprintf('t=%.2f',t) ); % update title
         
         % Plot Link 1
-        set(h_link1,'XData' , [0 rB(1)] );
-        set(h_link1,'YData' , [0 rB(2)] );
+        set(h_link1,'XData' , [0 r_B(1)] );
+        set(h_link1,'YData' , [0 r_B(2)] );
 
         % Plot Link 2
-        set(h_link2,'XData' , [rB(1) rC(1)] );
-        set(h_link2,'YData' , [rB(2) rC(2)] );
+        set(h_link2,'XData' , [r_B(1) r_C(1)] );
+        set(h_link2,'YData' , [r_B(2) r_C(2)] );
+        
+        % Plot Link 3
+        set(h_link3,'XData' , [r_C(1) r_D(1)] );
+        set(h_link3,'YData' , [r_C(2) r_D(2)] );
 
         pause(.01)
     end
