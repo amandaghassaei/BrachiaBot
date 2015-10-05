@@ -19,7 +19,7 @@ function simulate_brachia_bot()
     c4 = 0.5*l4;
     g = 9.81;
     
-    th1_0 = 3;
+    th1_0 = 1.5;
     th2_0 = 0;
     th3_0 = 0;
     th4_0 = 0;
@@ -74,21 +74,33 @@ function simulate_brachia_bot()
 end
 
 function dz = dynamics(t, z, p)
+
+    fixed_th2 = true;
+    fixed_th4 = true;
+
+    if fixed_th2
+        z(6) = 0;
+    end
+    if fixed_th4
+        z(8) = 0;
+    end
     
     % Get mass matrix
     A = A_brachia_bot(z,p);
     
-    % Get forces
+    % Get angles
     th1 = z(1);
     th2 = z(2);
     th3 = z(3);
     th4 = z(4);
     
+    % Get velocities
     dth1 = z(5);
     dth2 = z(6);
     dth3 = z(7);
     dth4 = z(8);
     
+    % Forces
     tau1 = 0;
     tau2 = 0;
     tau3 = 0;
