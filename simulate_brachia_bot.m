@@ -75,6 +75,7 @@ end
 
 function dz = dynamics(t, z, p)
 
+    %lock the wrists
     fixed_th2 = true;
     fixed_th4 = true;
 
