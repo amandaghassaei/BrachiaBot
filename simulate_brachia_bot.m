@@ -1,5 +1,8 @@
 function simulate_brachia_bot()
 
+    %dynamics options
+    options = struct('fixed_wrist', true);
+
     %fixed params
     m1 = 0.2;
     m2 = 1;
@@ -34,7 +37,7 @@ function simulate_brachia_bot()
     inttol = 1e-6;
     z0 = [th1_0; th2_0; th3_0; th4_0; dth1_0; dth2_0; dth3_0; dth4_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
-    sol = ode45(@dynamics,tspan,z0,opts,p);
+    sol = ode45(@dynamics,tspan,z0,opts,p, options);
 
     %compute energy
     E = energy_brachia_bot(sol.y, p);
