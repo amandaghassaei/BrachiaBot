@@ -1,15 +1,8 @@
 function dz = dynamics_fixed_wrist(t, z, p)
 
     %lock the wrists
-    fixed_th2 = true;
-    fixed_th4 = true;
-
-    if fixed_th2
-        z(6) = 0;
-    end
-    if fixed_th4
-        z(8) = 0;
-    end
+    z(6) = 0;% dth2 = 0
+    z(8) = 0;% dth4 = 0
     
     % Get mass matrix
     A = A_brachia_bot(z,p);
