@@ -11,25 +11,16 @@ function simulate_double_pendulum()
     c2 = 0.25;
     g = 9.81;
     
-    theta1_0 = 3;
-    theta2_0 = 0;
-    dtheta1_0 = 0;
-    dtheta2_0 = 0;
+    th1_0 = 3;
+    th2_0 = 0;
+    dth1_0 = 0;
+    dth2_0 = 0;
     
-    kappa1 = 10; 
-    kappa2 = 10; 
-    k3 = 50; 
-    theta1O = 0;
-    theta2O = 0;
-    rx = 0;
-    ry = 0.5;
-    lO = 0;
-    
-    p   = [m1; m2; I1; I2; l1; l2; c1; c2; g; kappa1; kappa2; k3; theta1O; theta2O; rx; ry; lO];% parameters array
+    p   = [l1; l2; c1; c2; m1; m2; I1; I2; g];% parameters array
     
     tspan = [0 10];
     inttol = 1e-6;
-    z0 = [theta1_0; theta2_0; dtheta1_0; dtheta2_0];
+    z0 = [th1_0; th2_0; dth1_0; dth2_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
     sol = ode45(@dynamics,tspan,z0,opts,p);
 
