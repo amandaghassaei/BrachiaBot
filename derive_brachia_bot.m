@@ -34,7 +34,7 @@ dr_m2 = ddt(r_m2);
 %kinetic energy
 T1 = 1/2*m1*dot(dr_m1, dr_m1) + 1/2*I1*dth1^2;
 % ??????   1/2*I2*(dth1 + dth2)^2 or 1/2*I2*(dth1^2 + dth2^2) ???????
-T2 = 1/2*m2*dot(dr_m2, dr_m2) + 1/2*I2*(dth1 + dth2)^2;%should it be  ???
+T2 = 1/2*m2*dot(dr_m2, dr_m2) + 1/2*I2*(dth1 + dth2)^2;
 Ttotal = simplify(T1 + T2);
 
 %potential energy
