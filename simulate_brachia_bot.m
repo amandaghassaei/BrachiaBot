@@ -18,7 +18,7 @@ function simulate_brachia_bot()
     lattice_options = struct('lattice_pitch', lattice_pitch);
     
     % initial conditions
-    th1_0 = -0.5;
+    th1_0 = 0.3;
     th2_0 = 0;
     dth1_0 = 0;
     dth2_0 = 0;

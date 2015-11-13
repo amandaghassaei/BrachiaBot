@@ -18,7 +18,10 @@ function dz = swinging_dynamics(t, z, p, E_des)
     range = pi/2;
     K = 100;
     D = 10;
-    th2_des = range*sign(dth1);
+%     th2_des = range;
+%     if dth1>0.1 || th2>0.25
+        th2_des = range*sign(dth1);
+%     end
     v = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
     
     % Compute virtual foce
@@ -27,6 +30,7 @@ function dz = swinging_dynamics(t, z, p, E_des)
     rho = Grav_brachia_bot(z, p);
     rho = rho(2);
     
+    %todo coriolis/cetripedal compensation, desired accel?
 %     mu = Corr_brachia_bot(z, p) - lambda*jacobian_dth2_brachia_bot(z,p)*dth2;
 %     mu = mu(2);
     
