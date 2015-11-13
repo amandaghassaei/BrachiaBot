@@ -5,7 +5,7 @@ function simulate_brachia_bot()
     %fixed params
     m1 = 1;
     m2 = m1;
-    l1 = 0.1;%length of links
+    l1 = 0.250;%length of links
     l2 = l1;
     I1 = 1/3*m1*l1^2;%model as rod rotating around one end
     I2 = 1/3*m2*l2^2;
@@ -14,7 +14,7 @@ function simulate_brachia_bot()
     g = 9.81;
     
     %lattice params
-    lattice_pitch  = 0.2;% 200 mm
+    lattice_pitch  = 0.45;% 200 mm
     lattice_options = struct('lattice_pitch', lattice_pitch);
     
     % initial conditions
@@ -63,14 +63,16 @@ function animateSol(sol, p, options)
     
     %plot lattice
     pitch = options.lattice_pitch;
-    for i = -3:3
-        plot(i*pitch, 0, 'o', 'MarkerEdgeColor', 'k');
+    for i = -1:1
+        for j= -1:1
+            plot(i*pitch, j*pitch, 'o', 'MarkerEdgeColor', 'k');
+        end
     end
     
     
     
     axis equal
-    axis([-0.4 0.4 -0.4 0.4]);
+    axis([-2*pitch 2*pitch -2*pitch 2*pitch]);
     
     %Step through and update animation
     for t = 0:.01:sol.x(end)
