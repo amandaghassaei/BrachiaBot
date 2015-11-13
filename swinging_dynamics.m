@@ -15,14 +15,12 @@ function dz = swinging_dynamics(t, z, p, E_des)
     E = energy_brachia_bot(z, p);
     
     A_hat22 = A(2,2)-A(2,1)*A(1,2)/A(1,1);
-    range = pi/2;
     K = 100;
     D = 10;
-%     th2_des = range;
-%     if dth1>0.1 || th2>0.25
-        th2_des = range*sign(dth1);
-%     end
+    th2_des = theta_desired(5*pi/6, th1, th2, dth1, dth2);
+    
     v = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
+%     A_hat22 = 1;
     
     % Compute virtual foce
 %     lambda = A*J_inv
@@ -46,5 +44,25 @@ function dz = swinging_dynamics(t, z, p, E_des)
     % Form dz
     dz(1:2) = z(3:4);
     dz(3:4) = qdd;
+
+end
+
+function theta = theta_desired(range, th1, th2, dth1, dth2)
+
+    num_turns = fix(th1/(2*pi));
+    th1_rel = th1-num_turns*2*pi;
+    theta = sign_nonzero(dth1)*(range-abs(th1_rel));%*cos(th1)
+%     num_turns = fix(th2/(2*pi));
+%     theta = theta + num_turns*2*pi;%shouldn't need this because theta2
+%     should never pass PI
+
+end
+
+function mysign = sign_nonzero(val)
+
+    mysign = sign(val);
+    if mysign == 0
+        mysign = 1;
+    end
 
 end

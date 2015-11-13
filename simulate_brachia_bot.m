@@ -70,7 +70,7 @@ function animateSol(sol, p, options)
     
     
     axis equal
-    axis([-0.4 0.4 -0.4 0.1]);
+    axis([-0.4 0.4 -0.4 0.4]);
     
     %Step through and update animation
     for t = 0:.01:sol.x(end)
