@@ -1,5 +1,6 @@
 function simulate_brachia_bot()
 
+    E_des = 1;
 
     %fixed params
     m1 = 1;
@@ -12,24 +13,23 @@ function simulate_brachia_bot()
     c2 = 0.5*l2;
     g = 9.81;
     
-    
     %lattice params
     lattice_pitch  = 0.2;% 200 mm
     lattice_options = struct('lattice_pitch', lattice_pitch);
     
     % initial conditions
-    th1_0 = -0.1;
+    th1_0 = -0.5;
     th2_0 = 0;
     dth1_0 = 0;
     dth2_0 = 0;
     
     p = [l1; l2; c1; c2; m1; m2; I1; I2; g];% parameters array
     
-    tspan = [0 3];
+    tspan = [0 10];
     inttol = 1e-2;
     z0 = [th1_0; th2_0; dth1_0; dth2_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
-    sol = ode45(@swinging_dynamics,tspan,z0,opts,p);
+    sol = ode45(@swinging_dynamics,tspan,z0,opts,p,E_des);
 
     %compute energy
     E = energy_brachia_bot(sol.y, p);
@@ -44,23 +44,6 @@ function simulate_brachia_bot()
     plot(sol.x,theta1);xlabel('Time (s)'); ylabel('Theta 1 (rad)');
     figure(3); clf;
     plot(sol.x,theta2);xlabel('Time (s)'); ylabel('Theta 2 (rad)');
-    
-%     %contour plot
-%     PotentialMat = zeros(201,201);
-%     thetas = zeros(1, 201);
-%     for i=-100:100
-%         theta1 = i/101*2*pi;
-%         for j=-100:100
-%             theta2 = j/101.0*2*pi;
-%             PotentialMat(i+101,j+101) = potential_brachia_bot(theta1, theta2, p);
-%         end
-%         thetas(i+101) = i/101*2*pi;
-%     end
-%     figure(4); clf;
-%     hold on
-%     plot(sol.y(1,:),sol.y(2,:),'k','LineWidth',3);
-%     xlabel('Theta 1 (rad)'); ylabel('Theta 2 (rad)');
-%     contour(thetas, thetas, PotentialMat, 70);
     
     %animate
     figure(5); clf;
