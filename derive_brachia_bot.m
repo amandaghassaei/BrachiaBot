@@ -57,6 +57,10 @@ eom = ddt(jacobian(L,dq).') - jacobian(L,q).' - Q;
 A = jacobian(eom,ddq);
 b = A*ddq - eom;
 
+%jacobian gripper
+J = jacobian(r_C,q);
+J  = J(1:2,1:2);
+
 % Equations of motion are
 % eom = A *ddq + (coriolis term) + (gravitational term) - Q = 0
 Mass_Joint_Sp = A;
@@ -71,8 +75,10 @@ matlabFunction(A,'file',['A_' name],'vars',{z p});
 matlabFunction(b,'file',['b_' name],'vars',{z u p});
 matlabFunction(E,'file',['energy_' name],'vars',{z p});
 matlabFunction(keypoints,'file',['keypoints_' name],'vars',{z p});
-matlabFunction(r_C ,'file', ['gripper_pos' name],'vars',{z p});
-matlabFunction(dr_C ,'file', ['gripper_vel' name],'vars',{z p});
+matlabFunction(r_C ,'file', ['gripper_pos_' name],'vars',{z p});
+matlabFunction(dr_C ,'file', ['gripper_vel_' name],'vars',{z p});
+matlabFunction(J ,'file', ['gripper_jacobian_' name],'vars',{z p});
+
 
 matlabFunction(Grav_Joint_Sp ,'file', ['Grav_' name] ,'vars',{z p});
 matlabFunction(Corr_Joint_Sp ,'file', ['Corr_' name]     ,'vars',{z p});
