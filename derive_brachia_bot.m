@@ -71,6 +71,8 @@ matlabFunction(A,'file',['A_' name],'vars',{z p});
 matlabFunction(b,'file',['b_' name],'vars',{z u p});
 matlabFunction(E,'file',['energy_' name],'vars',{z p});
 matlabFunction(keypoints,'file',['keypoints_' name],'vars',{z p});
+matlabFunction(r_C ,'file', ['gripper_pos' name],'vars',{z p});
+matlabFunction(dr_C ,'file', ['gripper_vel' name],'vars',{z p});
 
 matlabFunction(Grav_Joint_Sp ,'file', ['Grav_' name] ,'vars',{z p});
 matlabFunction(Corr_Joint_Sp ,'file', ['Corr_' name]     ,'vars',{z p});
