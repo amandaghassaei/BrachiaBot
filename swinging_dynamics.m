@@ -27,7 +27,7 @@ function dz = swinging_dynamics(t, z, p, E_des, lattice_options)
     % Compute virtual foce
 %     lambda = A*J_inv
 
-    gravComp = Grav_brachia_bot(z, p);
+    gravComp = grav_brachia_bot(z, p);
     gravComp = gravComp(2);
     
     %todo coriolis/cetripedal compensation, desired accel?

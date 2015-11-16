@@ -69,16 +69,17 @@ Corr_Joint_Sp = simplify( eom + Q - Grav_Joint_Sp - A*ddq);
 
 %write energy functions and eqs of motion
 keypoints = [r_B(1:2) r_C(1:2)];
-name = 'brachia_bot';
+name = '_brachia_bot';
+folder = 'Derived/';
 z  = [q ; dq];
-matlabFunction(A,'file',['A_' name],'vars',{z p});
-matlabFunction(b,'file',['b_' name],'vars',{z u p});
-matlabFunction(E,'file',['energy_' name],'vars',{z p});
-matlabFunction(keypoints,'file',['keypoints_' name],'vars',{z p});
-matlabFunction(r_C ,'file', ['gripper_pos_' name],'vars',{z p});
-matlabFunction(dr_C ,'file', ['gripper_vel_' name],'vars',{z p});
-matlabFunction(J ,'file', ['gripper_jacobian_' name],'vars',{z p});
+matlabFunction(A,'file',[folder 'A' name],'vars',{z p});
+matlabFunction(b,'file',[folder 'b' name],'vars',{z u p});
+matlabFunction(E,'file',[folder 'energy' name],'vars',{z p});
+matlabFunction(keypoints,'file',[folder 'keypoints' name],'vars',{z p});
+matlabFunction(r_C ,'file', [folder 'gripper_pos'],'vars',{z p});
+matlabFunction(dr_C ,'file', [folder 'gripper_vel'],'vars',{z p});
+matlabFunction(J ,'file', [folder 'gripper_jacobian'],'vars',{z p});
 
 
-matlabFunction(Grav_Joint_Sp ,'file', ['Grav_' name] ,'vars',{z p});
-matlabFunction(Corr_Joint_Sp ,'file', ['Corr_' name]     ,'vars',{z p});
+matlabFunction(Grav_Joint_Sp ,'file', [folder 'grav' name] ,'vars',{z p});
+matlabFunction(Corr_Joint_Sp ,'file', [folder 'corr' name]     ,'vars',{z p});
