@@ -34,7 +34,7 @@ function dz = swinging_dynamics(t, z, p, E_des, lattice_options)
 %     mu = Corr_brachia_bot(z, p) - lambda*jacobian_dth2_brachia_bot(z,p)*dth2;
 %     mu = mu(2);
     
-    tau = obstacleAvoidance;% + energyIncr + gravComp;
+    tau = obstacleAvoidance + energyIncr + gravComp;
     u = [0; tau];
     
     b = b_brachia_bot(z, u, p);
@@ -51,37 +51,38 @@ end
 
 function force = calc_obstacle_avoidance(z, p, pitch)
 
-    % Get angles
-    th1 = z(1);
-    th2 = z(2);
-    
-    % Get velocities
-    dth1 = z(3);
-    dth2 = z(4);
-    
-    gripper_pos = gripper_pos_brachia_bot(z,p);
-    
-    
-    K = 100;
-    D = 50;
-    safe_rad = 0.08;
-   
     force = 0;
-    
-    for i=-1:1
-        for j=-1:1
-            rung_pos = [i*pitch; j*pitch; 0];
-            distance = norm(gripper_pos - rung_pos);
-%             if distance < safe_rad
-                force = force + sign(th2)*(K*distance-D*dth2);
-%                 break;
-%             end
-        end
-%         if force > 0
-%             break;
+
+%     % Get angles
+%     th1 = z(1);
+%     th2 = z(2);
+%     
+%     % Get velocities
+%     dth1 = z(3);
+%     dth2 = z(4);
+%     
+%     gripper_pos = gripper_pos_brachia_bot(z,p);
+%     
+%     
+%     K = 100;
+%     D = 50;
+%     safe_rad = 0.08;
+%    
+%     force = 0;
+%     
+%     for i=-1:1
+%         for j=-1:1
+%             rung_pos = [i*pitch; j*pitch; 0];
+%             distance = norm(gripper_pos - rung_pos);
+% %             if distance < safe_rad
+%                 force = force + sign(th2)*(K*distance-D*dth2);
+% %                 break;
+% %             end
 %         end
-    end
-    a = force
+% %         if force > 0
+% %             break;
+% %         end
+%     end
 end
 
 function theta = theta_desired(range, th1, th2, dth1, dth2)
