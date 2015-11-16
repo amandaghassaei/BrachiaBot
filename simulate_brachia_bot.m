@@ -1,6 +1,6 @@
 function simulate_brachia_bot()
 
-    E_des = 1;
+    desired_rung = 2;
 
     %fixed params
     m1 = 1;
@@ -24,6 +24,8 @@ function simulate_brachia_bot()
     dth2_0 = 0;
     
     p = [l1; l2; c1; c2; m1; m2; I1; I2; g];% parameters array
+    
+    E_des = calc_energy_needed(desired_rung, l1, lattice_pitch, p);
     
     tspan = [0 10];
     inttol = 1e-2;

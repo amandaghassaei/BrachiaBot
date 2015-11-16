@@ -17,24 +17,30 @@ function dz = swinging_dynamics(t, z, p, E_des, lattice_options)
     A_hat22 = A(2,2)-A(2,1)*A(1,2)/A(1,1);
     K = 100;
     D = 10;
-    th2_des = theta_desired(5*pi/6, th1, th2, dth1, dth2);
     
+    if E < E_des
+        th2_des = theta_desired(5*pi/6, th1, th2, dth1, dth2);
+    else
+        th2_des = th2;
+    end
+
     v = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
     energyIncr = A_hat22*v;
-    
+
     obstacleAvoidance = calc_obstacle_avoidance(z, p, lattice_options.lattice_pitch);
-    
+
     % Compute virtual foce
 %     lambda = A*J_inv
 
     gravComp = grav_brachia_bot(z, p);
     gravComp = gravComp(2);
-    
+
     %todo coriolis/cetripedal compensation, desired accel?
 %     mu = Corr_brachia_bot(z, p) - lambda*jacobian_dth2_brachia_bot(z,p)*dth2;
 %     mu = mu(2);
-    
+
     tau = obstacleAvoidance + energyIncr + gravComp;
+
     u = [0; tau];
     
     b = b_brachia_bot(z, u, p);
