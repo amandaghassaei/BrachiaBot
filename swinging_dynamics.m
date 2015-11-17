@@ -27,7 +27,7 @@ function dz = swinging_dynamics(t, z, p, E_des, lattice_options)
     v = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
     energyIncr = A_hat22*v;
 
-    obstacleAvoidance = obstacle_avoidance(z, p, lattice_options.lattice_pitch);
+    obstacleAvoidance = obstacle_avoidance(z, p);
 
     % Compute virtual foce
 %     J = gripper_jacobian;

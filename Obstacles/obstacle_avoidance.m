@@ -1,4 +1,4 @@
-function force = obstacle_avoidance(z, p, pitch)
+function force = obstacle_avoidance(z, p)
 
     % Get angles
     th1 = z(1);
@@ -9,6 +9,8 @@ function force = obstacle_avoidance(z, p, pitch)
     dth2 = z(4);
 
     force = 0;
+    
+    pitch = p(10);
     
 %     r_gripper = gripper_pos(z,p);
 %     

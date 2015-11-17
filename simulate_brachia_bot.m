@@ -14,8 +14,7 @@ function simulate_brachia_bot()
     g = 9.81;
     
     %lattice params
-    lattice_pitch  = 0.45;% 200 mm
-    lattice_options = struct('lattice_pitch', lattice_pitch);
+    lattice_pitch  = 0.45;%meters
     
     % initial conditions
     th1_0 = 0.3;
@@ -23,7 +22,7 @@ function simulate_brachia_bot()
     dth1_0 = 0;
     dth2_0 = 0;
     
-    p = [l1; l2; c1; c2; m1; m2; I1; I2; g];% parameters array
+    p = [l1; l2; c1; c2; m1; m2; I1; I2; g; lattice_pitch];% parameters array
     
     E_des = calc_energy_needed(desired_rung, l1, lattice_pitch, p);
     
@@ -31,7 +30,7 @@ function simulate_brachia_bot()
     inttol = 1e-2;
     z0 = [th1_0; th2_0; dth1_0; dth2_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
-    sol = ode45(@swinging_dynamics,tspan,z0,opts,p,E_des,lattice_options);
+    sol = ode45(@swinging_dynamics,tspan,z0,opts,p,E_des);
 
     %compute energy
     E = energy_brachia_bot(sol.y, p);
@@ -49,15 +48,14 @@ function simulate_brachia_bot()
     
     %animate
     figure(5); clf;
-    [potential_map, X_contour, Y_contour] = force_potential_map(p, lattice_options.lattice_pitch);
+    [potential_map, X_contour, Y_contour] = obstacle_potential_map(lattice_pitch);
     contour(X_contour, Y_contour, potential_map);
-    animateSol(sol,p,lattice_options);
+    animateSol(sol,p);
     
-%     figure(6); clf;
     
 end
 
-function animateSol(sol, p, options)
+function animateSol(sol, p)
     % Prepare plot handles
     hold on
     line_width = 0.5;
@@ -68,7 +66,7 @@ function animateSol(sol, p, options)
     h_title = title('t=0.0s');
     
     %plot lattice
-    pitch = options.lattice_pitch;
+    pitch = p(10);
     for i = -1:1
         for j= -1:1
             plot(i*pitch, j*pitch, 'o', 'MarkerEdgeColor', 'k');

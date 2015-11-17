@@ -4,13 +4,14 @@ syms th1 th2 dth1 dth2 ddth1 ddth2 real
 syms m1 m2 I1 I2 g real
 syms l1 l2 c1 c2 r_B r_C real
 syms tau1 tau2 real
+syms pitch
 
 % Group them
 q   = [th1; th2];% generalized coordinates
 dq  = [dth1; dth2];% first time derivatives
 ddq = [ddth1; ddth2];% second time derivatives
 u   = [tau1; tau2];% controls
-p   = [l1; l2; c1; c2; m1; m2; I1; I2; g];% parameters
+p   = [l1; l2; c1; c2; m1; m2; I1; I2; g; pitch];% parameters
 
 %unit vectors
 xhat = [1; 0; 0];
@@ -61,6 +62,19 @@ b = A*ddq - eom;
 J = jacobian(r_C,q);
 J  = J(1:2,1:2);
 
+%obstacle avoidance
+obstacle_potential = 0;
+for i=-1:1
+    for j=-1:1
+        if i==0 && j==0
+            continue;
+        end
+        obstacle_potential = obstacle_potential + (1/(norm(r_C - [i*pitch; j*pitch; 0])))^1;
+    end
+end
+obstacle_potential = simplify(obstacle_potential);
+d_obstacle_potential = ddt(obstacle_potential);
+
 % Equations of motion are
 % eom = A *ddq + (coriolis term) + (gravitational term) - Q = 0
 Mass_Joint_Sp = A;
@@ -80,6 +94,7 @@ matlabFunction(r_C ,'file', [folder 'gripper_pos'],'vars',{z p});
 matlabFunction(dr_C ,'file', [folder 'gripper_vel'],'vars',{z p});
 matlabFunction(J ,'file', [folder 'gripper_jacobian'],'vars',{z p});
 
-
 matlabFunction(Grav_Joint_Sp ,'file', [folder 'grav' name] ,'vars',{z p});
-matlabFunction(Corr_Joint_Sp ,'file', [folder 'corr' name]     ,'vars',{z p});
+matlabFunction(Corr_Joint_Sp ,'file', [folder 'corr' name],'vars',{z p});
+
+matlabFunction(obstacle_potential ,'file', [folder 'obstacle_potential'],'vars',{z p});
