@@ -30,16 +30,15 @@ function dz = swinging_dynamics(t, z, p, E_des, lattice_options)
     obstacleAvoidance = calc_obstacle_avoidance(z, p, lattice_options.lattice_pitch);
 
     % Compute virtual foce
-%     lambda = A*J_inv
+%     J = gripper_jacobian;
+%     lambda = A*J_inv;
 
-    gravComp = grav_brachia_bot(z, p);
-    gravComp = gravComp(2);
+    grav_comp = grav_brachia_bot(z, p);
 
-    %todo coriolis/cetripedal compensation, desired accel?
-%     mu = Corr_brachia_bot(z, p) - lambda*jacobian_dth2_brachia_bot(z,p)*dth2;
-%     mu = mu(2);
+    %todo coriolis/cetripedal compensation
+    corr_centrip_comp = corr_brachia_bot(z, p);% - A_hat22*gripper_jacobian(z,p)*dth2;
 
-    tau = obstacleAvoidance + energyIncr + gravComp;
+    tau = obstacleAvoidance + energyIncr + grav_comp(2) + corr_centrip_comp(2);
 
     u = [0; tau];
     
