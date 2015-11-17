@@ -49,8 +49,12 @@ function simulate_brachia_bot()
     
     %animate
     figure(5); clf;
+    [potential_map, X_contour, Y_contour] = force_potential_map(p, lattice_options.lattice_pitch);
+    contour(X_contour, Y_contour, potential_map);
     animateSol(sol,p,lattice_options);
-
+    
+%     figure(6); clf;
+    
 end
 
 function animateSol(sol, p, options)
