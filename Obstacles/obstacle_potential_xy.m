@@ -9,7 +9,6 @@ function potential = obstacle_potential_xy(x, y, pitch)
             rung_pos = [i*pitch; j*pitch];
             distance = norm([x;y] - rung_pos);
             potential = potential + (1/distance)^1;
-        end
     end
 
 end

@@ -69,7 +69,7 @@ for i=-1:1
         if i==0 && j==0
             continue;
         end
-        obstacle_potential = obstacle_potential + (1/(norm(r_C - [i*pitch; j*pitch; 0])))^1;
+        obstacle_potential = obstacle_potential + (1/(norm(r_C - [i*pitch; j*pitch; 0])))^2;
     end
 end
 obstacle_potential = simplify(obstacle_potential);

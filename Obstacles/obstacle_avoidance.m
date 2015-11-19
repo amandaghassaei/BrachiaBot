@@ -7,23 +7,13 @@ function force = obstacle_avoidance(z, p)
     % Get velocities
     dth1 = z(3);
     dth2 = z(4);
-
+    
+    K = 1000;
+    D = 0;
+        
+%     potential = obstacle_potential(z, p)/100
+%     force = sign(th2)*(K*potential-D*dth2);
     force = 0;
-    
-    pitch = p(10);
-    
-%     r_gripper = gripper_pos(z,p);
-%     
-%     
-%     K = 100;
-%     D = 50;
-% 
-%     for i=-1:1
-%         for j=-1:1
-%             rung_pos = [i*pitch; j*pitch; 0];
-%             distance = norm(r_gripper - rung_pos);
-%             force = force + sign(th2)*(K*(1/distance)^2-D*dth2);
-%         end
-%     end
+
 end
 
