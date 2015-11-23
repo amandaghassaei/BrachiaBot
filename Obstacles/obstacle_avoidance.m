@@ -8,12 +8,11 @@ function force = obstacle_avoidance(z, p)
     dth1 = z(3);
     dth2 = z(4);
     
-    K = 1000;
-    D = 0;
+    K = 10;
+    D = 1;
         
-%     potential = obstacle_potential(z, p)/100
-%     force = sign(th2)*(K*potential-D*dth2);
-    force = 0;
+    potential = obstacle_potential(z, p)/100;
+    force = sign(th2)*(K*potential-D*dth2);
 
 end
 

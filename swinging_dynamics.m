@@ -1,4 +1,4 @@
-function dz = swinging_dynamics(t, z, p, E_des, lattice_options)
+function dz = swinging_dynamics(t, z, p)
         
     % Get mass matrix
     A = A_brachia_bot(z,p);
@@ -18,12 +18,8 @@ function dz = swinging_dynamics(t, z, p, E_des, lattice_options)
     K = 100;
     D = 10;
     
-    if E < E_des
-        th2_des = theta_desired(5*pi/6, th1, th2, dth1, dth2);
-    else
-        th2_des = th2;
-    end
-
+    th2_des = theta_desired(5*pi/6, th1, th2, dth1, dth2);
+    
     v = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
     energyIncr = A_hat22*v;
 
