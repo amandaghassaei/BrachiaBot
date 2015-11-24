@@ -92,15 +92,20 @@ function simulate_brachia_bot()
 %     figure(5); clf;
 %     plot(sol.x,dtheta2);xlabel('Time (s)'); ylabel('dTheta 2 (rad/s)');
     
-    %animate
+    sizeSol = size(sol.y);
+    taus = zeros(sizeSol(2), 1);
+    for i=1:sizeSol(2)
+        z = sol.y(:,i);
+        taus(i) = calc_tau(z, p);
+    end
     figure(6); clf;
+	plot(sol.x,taus);xlabel('Time (s)'); ylabel('Torque');
+
+    %animate
+    figure(7); clf;
     [potential_map, X_contour, Y_contour] = obstacle_potential_map(lattice_pitch);
     contour(X_contour, Y_contour, potential_map);
     animateSol(sol,p);
-    
-    
-    
-    
     
 end
 

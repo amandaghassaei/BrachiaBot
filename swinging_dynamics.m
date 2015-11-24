@@ -1,40 +1,9 @@
 function dz = swinging_dynamics(t, z, p)
-        
+
     % Get mass matrix
     A = A_brachia_bot(z,p);
-    
-    % Get angles
-    th1 = z(1);
-    th2 = z(2);
-    
-    % Get velocities
-    dth1 = z(3);
-    dth2 = z(4);
-        
-    % Forces
-    E = energy_brachia_bot(z, p);
-    
-    A_hat22 = A(2,2)-A(2,1)*A(1,2)/A(1,1);
-    K = 100;
-    D = 10;
-    
-    th2_des = theta_desired(5*pi/6, th1, th2, dth1, dth2);
-    
-    v = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
-    energyIncr = A_hat22*v;
 
-    obstacleAvoidance = obstacle_avoidance(z, p);
-
-    % Compute virtual foce
-%     J = gripper_jacobian;
-%     lambda = A*J_inv;
-
-    grav_comp = grav_brachia_bot(z, p);
-
-    %todo coriolis/cetripedal compensation
-    corr_centrip_comp = corr_brachia_bot(z, p);% - A_hat22*gripper_jacobian(z,p)*dth2;
-
-    tau = obstacleAvoidance + energyIncr + grav_comp(2) + corr_centrip_comp(2);
+    tau = calc_tau(z, p);
 
     u = [0; tau];
     
