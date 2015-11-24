@@ -5,7 +5,7 @@
 
 $( document ).ready(function() {
 
-    initGraphs();
+    var graphData = initGraphs();
 
     var threeModel = three(function(){
         //animation loop
@@ -21,7 +21,7 @@ $( document ).ready(function() {
     var arm2 = new Arm1(threeModel);
     new Rungs(threeModel);
 
-    var serialComm = SerialComm(arm2);
+    var serialComm = SerialComm(arm2, graphData);
 
     var templateURL = 'Simulator/js/ui/SetupCommMenuView.html';
 

@@ -10,19 +10,21 @@ function initGraphs(){
 
 
     // Data
-    var line1 = new TimeSeries();
-    var line2 = new TimeSeries();
+    var theta2 = new TimeSeries();
+//    var line2 = new TimeSeries();
 
     // Add a random value to each line every second
-    setInterval(function() {
-      line1.append(new Date().getTime(), Math.random());
-      line2.append(new Date().getTime(), Math.random());
-    }, 1000);
+//    setInterval(function() {
+//      line1.append(new Date().getTime(), Math.random());
+//      line2.append(new Date().getTime(), Math.random());
+//    }, 1000);
 
     // Add to SmoothieChart
-    smoothie.addTimeSeries(line1,
+    smoothie.addTimeSeries(theta2,
         { strokeStyle:'rgb(0, 255, 0)', lineWidth:3 });
-    smoothie.addTimeSeries(line2,
-        { strokeStyle:'rgb(255, 0, 255)', lineWidth:3 });
+//    smoothie.addTimeSeries(line2,
+//        { strokeStyle:'rgb(255, 0, 255)', lineWidth:3 });
+
+    return {th2: theta2};
 
 }

@@ -3,7 +3,7 @@
  */
 
 
-function SerialComm(arm2){
+function SerialComm(arm2, graphData){
 
     var SerialComm = Backbone.Model.extend({
 
@@ -110,6 +110,7 @@ function SerialComm(arm2){
                 var theta = parseFloat(data.split(" ")[0].split(":")[1]);
                 theta *= 2*Math.PI/360.0;
                 arm2.setTheta(theta);
+                graphData.th2.append(theta);
             } catch(err) {
     //                console.warn(err);
             }
