@@ -12,7 +12,7 @@ function force = obstacle_avoidance(z, p)
     D = 1;
         
     potential = obstacle_potential(z, p)/100;
-    force = sign(th2)*(K*potential-D*dth2);
+    force = potential_direction(th1, th2, dth1, dth2)*(K*potential-D*dth2);
 
 end
 
