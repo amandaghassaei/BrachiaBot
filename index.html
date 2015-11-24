@@ -2,20 +2,26 @@
 <html>
 <head>
 
-    <title>Compass</title>
+    <title>Bracky</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!--<script src="dependencies/analytics.js"></script>-->
     <script src="Simulator/dependencies/jquery-2.1.3.min.js"></script>
     <script src="Simulator/dependencies/underscore-min.js"></script>
+    <script src="Simulator/dependencies/backbone-min.js"></script>
 
-    <!--flatUI bootstrap theme-->
+    <!--serial-->
+    <script src="Simulator/dependencies/socket.io-1.3.5.js"></script>
+
+    <!--&lt;!&ndash;flatUI bootstrap theme&ndash;&gt;-->
     <link href="Simulator/dependencies/flatUI/css/vendor/bootstrap.min.css" rel="stylesheet"><!-- Loading Bootstrap -->
     <link href="Simulator/dependencies/flatUI/css/flat-ui.css" rel="stylesheet"><!-- Loading Flat UI -->
 
-    <!--bootstrap slider-->
-    <link href="Simulator/dependencies/bootstrap-slider/bootstrap-slider.css" rel="stylesheet">
-    <script src="Simulator/dependencies/bootstrap-slider/bootstrap-slider.js"></script>
+    <!--&lt;!&ndash;bootstrap slider&ndash;&gt;-->
+    <!--<link href="Simulator/dependencies/bootstrap-slider/bootstrap-slider.css" rel="stylesheet">-->
+    <!--<script src="Simulator/dependencies/bootstrap-slider/bootstrap-slider.js"></script>-->
+
+    <script type="text/javascript" src="Simulator/dependencies/smoothie.js"></script>
 
     <link rel="stylesheet" type="text/css" href="Simulator/css/main.css">
 
@@ -26,14 +32,23 @@
     <script src="Simulator/js/Arm.js"></script>
     <script src="Simulator/js/Arm1.js"></script>
     <script src="Simulator/js/Arm2.js"></script>
+    <script src="Simulator/js/Rungs.js"></script>
     <script src="Simulator/js/Three.js"></script>
+
+    <script src="Simulator/js/SerialComm.js"></script>
+
     <script src="Simulator/js/Main.js"></script>
 
+
+    <script src="Simulator/js/Graphs.js"></script>
 
 </head>
 <body>
 
 <div id="threeContainer"></div>
+<div id="graphs"><canvas id="graphsCanvas"></canvas></div>
+<div id="controls"></div>
+
 
 
 </body>

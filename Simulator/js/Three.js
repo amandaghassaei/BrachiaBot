@@ -15,7 +15,7 @@ function three(animationLoopCallback){
 
     var controls;
 
-    var initialCameraPosition = new THREE.Vector3(0, -500, -0);
+    var initialCameraPosition = new THREE.Vector3(0, -1000, -0);
 
     var threeView = null;
 
