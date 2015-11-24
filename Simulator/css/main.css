@@ -27,9 +27,10 @@ body{
 }
 
 #controls {
-    width: 300px;
+    width: 420px;
+    padding: 30px;
     height: 100%;
-    background: clear;
+    background: rgba(255, 255, 255, 0.8);
     top: 0;
     right: 0;
     position: absolute;

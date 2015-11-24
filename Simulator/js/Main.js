@@ -23,4 +23,19 @@ $( document ).ready(function() {
 
     var serialComm = SerialComm();
 
+    var templateURL = 'Simulator/js/ui/SetupCommMenuView.html';
+
+    var template = '';
+    $.ajax({
+        url: templateURL,
+        method: 'GET',
+        success: function(template) {
+            console.log(template);
+            var CommMenu = SetupCommMenuView(serialComm, template);
+            new CommMenu();
+        }
+    });
+
+
+
 });
