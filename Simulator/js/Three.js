@@ -15,7 +15,7 @@ function three(animationLoopCallback){
 
     var controls;
 
-    var initialCameraPosition = new THREE.Vector3(0, -250, 0);
+    var initialCameraPosition = new THREE.Vector3(0, -500, -0);
 
     var threeView = null;
 
@@ -60,8 +60,8 @@ function three(animationLoopCallback){
 
         controls = new THREE.OrbitControls(camera, $el.get(0));
         controls.minDistance = 5;
-	    controls.maxDistance = 400;
-        controls.noPan = true;
+	    controls.maxDistance = 1000;
+//        controls.noPan = true;
 
         startAnimationLoop();
     }
