@@ -3,7 +3,7 @@
  */
 
 
-function SerialComm(){
+function SerialComm(arm2){
 
     var SerialComm = Backbone.Model.extend({
 
@@ -107,12 +107,9 @@ function SerialComm(){
             serialComm.set("lastMessageReceived", data, {silent:true});
             serialComm.trigger("change:lastMessageReceived");
             try {
-                var json = JSON.parse(data);
-                if (json.r && json.r.sr){
-                    serialComm.getMachineState().setPosition(json.r.sr);
-                } else if (json.sr){
-                    serialComm.getMachineState().setPosition(json.sr);
-                }
+                var theta = parseFloat(data.split(" ")[0].split(":")[1]);
+                theta *= 2*Math.PI/360.0;
+                arm2.setTheta(theta);
             } catch(err) {
     //                console.warn(err);
             }

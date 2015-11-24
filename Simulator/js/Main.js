@@ -11,7 +11,7 @@ $( document ).ready(function() {
         //animation loop
         if (!arm1 || !arm2) return;
 
-        arm1.setTheta(arm1.getTheta() + 0.001);
+//        arm1.setTheta(arm1.getTheta() + 0.001);
         arm2.setPosition(arm1.getPosition());
 //        arm2.setTheta(arm2.getTheta() - 0.001);
 
@@ -21,7 +21,7 @@ $( document ).ready(function() {
     var arm2 = new Arm1(threeModel);
     new Rungs(threeModel);
 
-    var serialComm = SerialComm();
+    var serialComm = SerialComm(arm2);
 
     var templateURL = 'Simulator/js/ui/SetupCommMenuView.html';
 

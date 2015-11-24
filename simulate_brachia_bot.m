@@ -7,9 +7,9 @@ function simulate_brachia_bot()
     desired_rung = 2;
 
     %fixed params
-    m1 = 1;
+    m1 = 0.55;
     m2 = m1;
-    l1 = 0.250;%length of links
+    l1 = 0.30;%length of links
     l2 = l1;
     I1 = 1/3*m1*l1^2;%model as rod rotating around one end
     I2 = 1/3*m2*l2^2;
@@ -18,18 +18,18 @@ function simulate_brachia_bot()
     g = 9.81;
     
     %lattice params
-    lattice_pitch  = 0.45;%meters
+    lattice_pitch  = 0.35;%meters
     
     % initial conditions
     th1_0 = 0.3;
-    th2_0 = 0;
+    th2_0 = 2*pi/3;
     dth1_0 = 0;
     dth2_0 = 0;
     
     p = [l1; l2; c1; c2; m1; m2; I1; I2; g; lattice_pitch];% parameters array
     
     %first solve system with just swinging and obstacle avoidance
-    tspan = [0 10];
+    tspan = [0 20];
     inttol = 1e-2;
     z0 = [th1_0; th2_0; dth1_0; dth2_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
