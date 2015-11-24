@@ -25,14 +25,13 @@ $( document ).ready(function() {
 
     var templateURL = 'Simulator/js/ui/SetupCommMenuView.html';
 
-    var template = '';
     $.ajax({
         url: templateURL,
         method: 'GET',
         success: function(template) {
-            console.log(template);
             var CommMenu = SetupCommMenuView(serialComm, template);
-            new CommMenu();
+            var menu = new CommMenu();
+            MenuWrapper(menu);
         }
     });
 
