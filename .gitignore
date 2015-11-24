@@ -1,2 +1,3 @@
 *.m~
 Derived/*
+Simulator/node/node_modules/*
