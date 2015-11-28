@@ -4,7 +4,7 @@
 
 #include "Arduino.h"
 #include "low_pass_filter.h"
-#include "PID.h"
+#include "PD.h"
 
 //keep in safe range
 #define MAX_CURRENT 1300//mA (datasheet says 1600 at 6V)
@@ -15,28 +15,31 @@ class MicroGearMotor
 {
   public:
   
-    MicroGearMotor(byte dirPin, byte pwmPin, byte currentPin, byte encoderAPin, byte encoderBPin, boolean invertDirection);
+    MicroGearMotor(byte dirPin, byte pwmPin, byte currentPin, byte encoderAPin, byte encoderBPin, boolean invertDirection, int enocderTicks, int gearRatio);
     void init();//call from setup()
     
-    void setSpeedPIDGains(float proportionalGain, float integralGain);
-    void setCurrentPIDGains(float proportionalGain, float integralGain);
+    void setSpeedPIDGains(float proportionalGain, float derivativeGain);
+    void setCurrentPIDGains(float proportionalGain, float derivativeGain);
 
-    void moveTo(long targetPosition, float targetSpeed);
+    void moveTo(float targetPosition, float targetSpeed);
     boolean targetReached();
     void zero();
     void motorStop();
-    long getPosition();
-    long getTargetPosition();
+    float getPosition();
+    float getTargetPosition();
     float getTargetSpeed();
     
     float getCurrent();
     boolean currentLimitHit();
     
-    void update(float speedCorrection);//call from loop
-    
+    void update();//call from loop
+        
     void interruptRoutine();
   
   private:
+  
+    int _encoderTicks;
+    int _gearRatio;
   
     boolean _currentLimitHit;
   
@@ -53,12 +56,12 @@ class MicroGearMotor
     float _speed;
     float _targetSpeed;//this is always a positive number - absolute speed
     LPFilter *_speedFilter;
-    PID *_speedPID;
+    PD *_speedPID;
     
     float _current;//mA
     float _targetCurrent;
     LPFilter *_currentFilter;
-    PID *_currentPID;
+    PD *_currentPID;
     float _measureCurrent();
 };
 

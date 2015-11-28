@@ -4,12 +4,12 @@
 
 #include <Arduino.h>
 
-class PID
+class PD
 {
   public:
     
-    PID();
-    void setGains(float proportianalGain, float integralGain);
+    PD();
+    void setGains(float proportianalGain, float derivativeGain);
     
     //return a pwn to set for dc motor
     float calc(long currentVal, long target);
@@ -17,7 +17,7 @@ class PID
   private:
   
     float _proportionalGain;
-    float _integralGain;
+    float _derivativeGain;
    
     float _error;
 };
