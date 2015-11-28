@@ -41,26 +41,61 @@ void MicroGearMotor::init()
   _lastSpeedPosition = _position;
   _currentFilter->init(2.5, this->_measureCurrent());
   _speedFilter->init(2.5, _speed);
-  
-//  float offset = 0;
-//  boolean stopHit = false;
-//  long timeout = micros();
-//  this->moveTo(-0.2, 10);
-//  while(stopHit){
-//    offset -= 0.1;
-//    this->moveTo(offset, 10);
-//    while(!this->targetReached()){
-//      if (timeout-micros()>700) {
-//        Serial.println("stop");
-//        stopHit = true;
-//        break;
+}
+
+boolean MicroGearMotor::calibrate()
+{
+//  float maxCurrent = 0;
+//  float zero = 0;
+//  int timeout = 3000;
+//  long time = millis();
+//  float target = 2*TWO_PI;
+//  this->moveTo(target, 20);
+//  while(!this->targetReached()){
+//    this->update();
+//    if ((_position > 200) && (_position < (target/TWO_PI*_gearRatio*_encoderTicks-200))) {
+//      float current = this->getCurrent()/this->getSpeed();;
+//      Serial.println(current);
+//      if (current>maxCurrent) {
+//        zero = this->getPosition();
+//        maxCurrent = current;
 //      }
-//      this->update();
 //    }
-//    delay(400);
-//    timeout = micros();
+//    if (millis()-time>timeout) return false;
 //  }
-//  Serial.println(offset);
+//  
+//  Serial.println(zero);
+//  this->moveTo(zero+PI/2, 40);
+//  while(!this->targetReached()){
+//    this->update();
+//  }
+//  Serial.println(this->getPosition());
+//  return true;
+  
+  float zero = 0;
+  float maxCurrent = 0;
+  long timeout = millis();
+  for (float i=0.2;i<TWO_PI;i+=0.2){
+    this->moveTo(i, 40);
+    while(!this->targetReached()){
+//      if (millis()-timeout>700) {
+//        Serial.println("stop");
+//        return false;
+//      }
+      this->update();
+    }
+    delay(500);
+//    
+//    float current = this->getCurrent();
+//    if (current>maxCurrent) {
+//        zero = this->getPosition();
+//        maxCurrent = current;
+//      }
+//    timeout = micros();
+  }
+  Serial.println(zero);
+  
+  return true;
 
 //  while(!this->targetReached()){
 //    if (micros()-timeout>700) {
@@ -75,10 +110,8 @@ void MicroGearMotor::init()
 //  while(!this->targetReached()){
 //    this->update();
 //  }
-  _position = 0;
-  _targetPosition = _position;
-  _lastSpeedPosition = _position;
 }
+
 
 void MicroGearMotor::setSpeedPIDGains(float proportionalGain, float derivativeGain)
 {
@@ -151,6 +184,11 @@ float MicroGearMotor::getTargetPosition()
 float MicroGearMotor::getTargetSpeed()
 {
   return _targetSpeed;
+}
+
+float MicroGearMotor::getSpeed()
+{
+  return _speed;
 }
 
 float MicroGearMotor::getCurrent()

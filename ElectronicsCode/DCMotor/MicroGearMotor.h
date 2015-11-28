@@ -17,6 +17,7 @@ class MicroGearMotor
   
     MicroGearMotor(byte dirPin, byte pwmPin, byte currentPin, byte encoderAPin, byte encoderBPin, int enocderTicks, int gearRatio);
     void init();//call from setup()
+    boolean calibrate();
     
     void setSpeedPIDGains(float proportionalGain, float derivativeGain);
     void setCurrentPIDGains(float proportionalGain, float derivativeGain);
@@ -29,6 +30,7 @@ class MicroGearMotor
     float getPosition();
     float getTargetPosition();
     float getTargetSpeed();
+    float getSpeed();
     
     float getCurrent();
     boolean currentLimitHit();
