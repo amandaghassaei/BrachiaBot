@@ -1,15 +1,13 @@
 #include "MicroGearMotor.h"
 
 
-MicroGearMotor::MicroGearMotor(byte dirPin, byte pwmPin, byte currentPin, byte encoderAPin, byte encoderBPin, boolean invertDirection, int encoderTicks, int gearRatio)
+MicroGearMotor::MicroGearMotor(byte dirPin, byte pwmPin, byte currentPin, byte encoderAPin, byte encoderBPin, int encoderTicks, int gearRatio)
 { 
   _encoderTicks = encoderTicks;
   _gearRatio = gearRatio;
   
   _currentLimitHit = false;
-  
-  _invertDirection = invertDirection;
-  
+    
   _dirPin = dirPin;
   _pwmPin = pwmPin;
   _currentPin = currentPin;
@@ -43,6 +41,43 @@ void MicroGearMotor::init()
   _lastSpeedPosition = _position;
   _currentFilter->init(2.5, this->_measureCurrent());
   _speedFilter->init(2.5, _speed);
+  
+//  float offset = 0;
+//  boolean stopHit = false;
+//  long timeout = micros();
+//  this->moveTo(-0.2, 10);
+//  while(stopHit){
+//    offset -= 0.1;
+//    this->moveTo(offset, 10);
+//    while(!this->targetReached()){
+//      if (timeout-micros()>700) {
+//        Serial.println("stop");
+//        stopHit = true;
+//        break;
+//      }
+//      this->update();
+//    }
+//    delay(400);
+//    timeout = micros();
+//  }
+//  Serial.println(offset);
+
+//  while(!this->targetReached()){
+//    if (micros()-timeout>700) {
+//        Serial.println("stop");
+//        stopHit = true;
+//        break;
+//      }
+//    this->update();
+//  }
+//  Serial.println("here");
+//  this->moveTo(1, 50);
+//  while(!this->targetReached()){
+//    this->update();
+//  }
+  _position = 0;
+  _targetPosition = _position;
+  _lastSpeedPosition = _position;
 }
 
 void MicroGearMotor::setSpeedPIDGains(float proportionalGain, float derivativeGain)
@@ -57,7 +92,7 @@ void MicroGearMotor::setCurrentPIDGains(float proportionalGain, float derivative
 
 void MicroGearMotor::moveTo(float targetPosition, float targetSpeed)
 {
-  _targetPosition = targetPosition/TWO_PI*_gearRatio*_encoderTicks*2;
+  _targetPosition = targetPosition/TWO_PI*_gearRatio*_encoderTicks;
   _targetSpeed = targetSpeed;
 }
 
@@ -71,14 +106,15 @@ void MicroGearMotor::update()
   _lastSpeedCalcTime = micros();
   _lastSpeedPosition = _position;
   
+  
+//  if (this->targetReached()) return;
   float rampLength = 50.0;
   float rampedSpeed = _targetSpeed/rampLength*constrain(_targetPosition-_position, -rampLength, rampLength);
   
   int pwm = _speedPID->calc(_speed, rampedSpeed);
   pwm = constrain(pwm, -MAX_PWM, MAX_PWM);
   
-  if (_invertDirection) digitalWrite(_dirPin, pwm < 0);
-  else digitalWrite(_dirPin, pwm > 0);
+  digitalWrite(_dirPin, pwm > 0);
   analogWrite(_pwmPin, abs(pwm));
   
   _current = _currentFilter->step(this->_measureCurrent());
@@ -89,7 +125,7 @@ void MicroGearMotor::update()
 
 void MicroGearMotor::motorStop()
 {
-//  Serial.println("stop");
+  Serial.println("stop");
   _currentLimitHit = true;
   digitalWrite(13, HIGH);
   
@@ -97,16 +133,19 @@ void MicroGearMotor::motorStop()
   _targetPosition = _position;
 }
 
+long MicroGearMotor::getTicks()
+{
+  return _position;
+}
+
 float MicroGearMotor::getPosition()
 {
-  float positionInRad = _position*TWO_PI/(_gearRatio*_encoderTicks*2);
-  if (_invertDirection) return -positionInRad;
-  return positionInRad;
+  return _position*TWO_PI/(_gearRatio*_encoderTicks);
 }
 
 float MicroGearMotor::getTargetPosition()
 {
-  return _targetPosition*TWO_PI/_gearRatio/_encoderTicks;
+  return _targetPosition*TWO_PI/(_gearRatio*_encoderTicks);
 }
 
 float MicroGearMotor::getTargetSpeed()

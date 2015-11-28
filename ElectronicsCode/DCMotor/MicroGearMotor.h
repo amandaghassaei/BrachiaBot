@@ -15,7 +15,7 @@ class MicroGearMotor
 {
   public:
   
-    MicroGearMotor(byte dirPin, byte pwmPin, byte currentPin, byte encoderAPin, byte encoderBPin, boolean invertDirection, int enocderTicks, int gearRatio);
+    MicroGearMotor(byte dirPin, byte pwmPin, byte currentPin, byte encoderAPin, byte encoderBPin, int enocderTicks, int gearRatio);
     void init();//call from setup()
     
     void setSpeedPIDGains(float proportionalGain, float derivativeGain);
@@ -25,6 +25,7 @@ class MicroGearMotor
     boolean targetReached();
     void zero();
     void motorStop();
+    long getTicks();
     float getPosition();
     float getTargetPosition();
     float getTargetSpeed();
@@ -40,7 +41,7 @@ class MicroGearMotor
   
     int _encoderTicks;
     int _gearRatio;
-  
+      
     boolean _currentLimitHit;
   
     boolean _invertDirection;//in case motors are pointed in different directions
