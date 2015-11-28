@@ -110,7 +110,7 @@ function SerialComm(arm2, graphData){
                 var theta = parseFloat(data.split(" ")[0].split(":")[1]);
                 theta *= 2*Math.PI/360.0;
                 arm2.setTheta(theta);
-                graphData.th2.append(theta);
+                graphData.th2.append(new Date().getTime(), theta);
             } catch(err) {
     //                console.warn(err);
             }
