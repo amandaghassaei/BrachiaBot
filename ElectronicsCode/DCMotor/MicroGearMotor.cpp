@@ -45,55 +45,37 @@ void MicroGearMotor::init()
 
 boolean MicroGearMotor::calibrate()
 {
-//  float maxCurrent = 0;
-//  float zero = 0;
-//  int timeout = 3000;
-//  long time = millis();
-//  float target = 2*TWO_PI;
-//  this->moveTo(target, 20);
-//  while(!this->targetReached()){
-//    this->update();
-//    if ((_position > 200) && (_position < (target/TWO_PI*_gearRatio*_encoderTicks-200))) {
-//      float current = this->getCurrent()/this->getSpeed();;
-//      Serial.println(current);
-//      if (current>maxCurrent) {
-//        zero = this->getPosition();
-//        maxCurrent = current;
-//      }
-//    }
-//    if (millis()-time>timeout) return false;
-//  }
-//  
-//  Serial.println(zero);
-//  this->moveTo(zero+PI/2, 40);
-//  while(!this->targetReached()){
-//    this->update();
-//  }
-//  Serial.println(this->getPosition());
-//  return true;
-  
   float zero = 0;
   float maxCurrent = 0;
   long timeout = millis();
-  for (float i=0.2;i<TWO_PI;i+=0.2){
+  for (float i=0.2;i<TWO_PI*3/2;i+=0.2){
     this->moveTo(i, 40);
     while(!this->targetReached()){
-//      if (millis()-timeout>700) {
-//        Serial.println("stop");
-//        return false;
-//      }
+      if (millis()-timeout>700) {
+        Serial.println("stop");
+        return false;
+      }
       this->update();
     }
+    this->motorStop();
+    this->update();
     delay(500);
-//    
-//    float current = this->getCurrent();
-//    if (current>maxCurrent) {
-//        zero = this->getPosition();
-//        maxCurrent = current;
-//      }
-//    timeout = micros();
+    
+    float current = this->getCurrent();
+    if (current>maxCurrent) {
+        zero = this->getPosition();
+        maxCurrent = current;
+      }
+    timeout = millis();
   }
   Serial.println(zero);
+  this->moveTo(zero, 40);
+  while(!this->targetReached()){
+    this->update();
+  }
+  this->motorStop();
+  this->update();
+  
   
   return true;
 
