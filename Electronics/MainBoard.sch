@@ -1324,8 +1324,6 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <part name="JP5" library="adafruit" deviceset="PINHD-1X9" device=""/>
 <part name="JP8" library="adafruit" deviceset="PINHD-1X1" device=""/>
 <part name="JP9" library="adafruit" deviceset="PINHD-1X1" device=""/>
-<part name="JP10" library="adafruit" deviceset="PINHD-1X1" device=""/>
-<part name="JP11" library="adafruit" deviceset="PINHD-1X1" device=""/>
 <part name="J1" library="adafruit" deviceset="1X2" device="-3.5MM"/>
 <part name="8V" library="SparkFun" deviceset="VCC" device="" value="8V"/>
 <part name="8V1" library="SparkFun" deviceset="VCC" device="" value="8V"/>
@@ -1351,8 +1349,6 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <instance part="JP5" gate="G$1" x="71.12" y="154.94"/>
 <instance part="JP8" gate="G$1" x="-20.32" y="193.04"/>
 <instance part="JP9" gate="G$1" x="-20.32" y="185.42"/>
-<instance part="JP10" gate="G$1" x="-38.1" y="193.04"/>
-<instance part="JP11" gate="G$1" x="-38.1" y="185.42"/>
 <instance part="J1" gate="G$1" x="101.6" y="187.96"/>
 <instance part="8V" gate="1" x="96.52" y="137.16"/>
 <instance part="8V1" gate="1" x="78.74" y="193.04"/>
@@ -1397,8 +1393,6 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <segment>
 <wire x1="-38.1" y1="193.04" x2="-27.94" y2="193.04" width="0.1524" layer="91"/>
 <label x="-35.56" y="193.04" size="1.778" layer="95"/>
-<pinref part="JP10" gate="G$1" pin="1"/>
-<wire x1="-38.1" y1="193.04" x2="-40.64" y2="193.04" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="J1" gate="G$1" pin="2"/>
@@ -1435,16 +1429,6 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <wire x1="45.72" y1="104.14" x2="76.2" y2="104.14" width="0.1524" layer="91"/>
 <wire x1="76.2" y1="104.14" x2="76.2" y2="106.68" width="0.1524" layer="91"/>
 <label x="53.34" y="104.14" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="JP3" gate="A" pin="3"/>
-<wire x1="119.38" y1="129.54" x2="101.6" y2="129.54" width="0.1524" layer="91"/>
-<label x="101.6" y="129.54" size="1.778" layer="95"/>
-</segment>
-<segment>
-<pinref part="JP5" gate="G$1" pin="4"/>
-<wire x1="68.58" y1="157.48" x2="48.26" y2="157.48" width="0.1524" layer="91"/>
-<label x="48.26" y="157.48" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="SCL" class="0">
@@ -1542,6 +1526,16 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <wire x1="38.1" y1="165.1" x2="17.78" y2="165.1" width="0.1524" layer="91"/>
 <label x="17.78" y="165.1" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="JP3" gate="A" pin="3"/>
+<wire x1="119.38" y1="129.54" x2="101.6" y2="129.54" width="0.1524" layer="91"/>
+<label x="101.6" y="129.54" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="JP5" gate="G$1" pin="4"/>
+<wire x1="68.58" y1="157.48" x2="48.26" y2="157.48" width="0.1524" layer="91"/>
+<label x="48.26" y="157.48" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="G_ENCA_2" class="0">
 <segment>
@@ -1586,6 +1580,11 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <pinref part="8V2" gate="1" pin="VCC"/>
 <wire x1="48.26" y1="165.1" x2="45.72" y2="165.1" width="0.1524" layer="91"/>
 <wire x1="45.72" y1="165.1" x2="45.72" y2="170.18" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<pinref part="JP1" gate="A" pin="2"/>
+<wire x1="15.24" y1="104.14" x2="2.54" y2="104.14" width="0.1524" layer="91"/>
+<label x="2.54" y="104.14" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="G_PWM_1" class="0">
@@ -1722,14 +1721,8 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 </net>
 <net name="VIN" class="0">
 <segment>
-<pinref part="JP1" gate="A" pin="2"/>
-<wire x1="15.24" y1="104.14" x2="2.54" y2="104.14" width="0.1524" layer="91"/>
-<label x="2.54" y="104.14" size="1.778" layer="95"/>
-</segment>
-<segment>
 <wire x1="-38.1" y1="185.42" x2="-27.94" y2="185.42" width="0.1524" layer="91"/>
 <label x="-35.56" y="185.42" size="1.778" layer="95"/>
-<pinref part="JP11" gate="G$1" pin="1"/>
 <wire x1="-38.1" y1="185.42" x2="-40.64" y2="185.42" width="0.1524" layer="91"/>
 </segment>
 </net>
