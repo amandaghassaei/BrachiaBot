@@ -141,7 +141,7 @@ void setup() {
     Serial.println(F("Testing device connections..."));
     Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
 
-    // wait for ready
+//    // wait for ready
     Serial.println(F("\nSend any character to begin DMP programming and demo: "));
     while (Serial.available() && Serial.read()); // empty buffer
     while (!Serial.available());                 // wait for data
@@ -235,10 +235,12 @@ void loop() {
         mpu.dmpGetQuaternion(&q, fifoBuffer);
         mpu.dmpGetGravity(&gravity, &q);
         mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-        Serial.print(ypr[2] * 180/M_PI);
-        Serial.print("\t");
+        Serial.print("{\"th1\":\"");
+        Serial.print(ypr[2]);
+        Serial.print("\", \"dth1\":\"");
         mpu.dmpGetGyro(data, fifoBuffer);
-        Serial.println(data[2]);
+        Serial.print(data[2]);
+        Serial.println("\"}");
 
         // blink LED to indicate activity
         blinkState = !blinkState;
