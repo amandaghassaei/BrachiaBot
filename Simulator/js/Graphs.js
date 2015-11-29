@@ -4,27 +4,36 @@
 
 function initGraphs(){
 
-    var smoothie = new SmoothieChart({labels:{disabled:false}});
-    var canvas = document.getElementById("graphsCanvas");
-    smoothie.streamTo(canvas);
+    var theta1Graph = new SmoothieChart({labels:{disabled:false}});
+    theta1Graph.streamTo(document.getElementById("theta1"));
+
+    var dtheta1Graph = new SmoothieChart({labels:{disabled:false}});
+    dtheta1Graph.streamTo(document.getElementById("dtheta1"));
+
+    var theta2Graph = new SmoothieChart({labels:{disabled:false}});
+    theta2Graph.streamTo(document.getElementById("theta2"));
+
+    var dtheta2Graph = new SmoothieChart({labels:{disabled:false}});
+    dtheta2Graph.streamTo(document.getElementById("dtheta2"));
 
 
     // Data
+    var theta1 = new TimeSeries();
+    var dtheta1 = new TimeSeries();
     var theta2 = new TimeSeries();
-//    var line2 = new TimeSeries();
-
-    // Add a random value to each line every second
-//    setInterval(function() {
-//      line1.append(new Date().getTime(), Math.random());
-//      line2.append(new Date().getTime(), Math.random());
-//    }, 1000);
+    var dtheta2 = new TimeSeries();
 
     // Add to SmoothieChart
-    smoothie.addTimeSeries(theta2,
+    theta1Graph.addTimeSeries(theta1,
         { strokeStyle:'rgb(0, 255, 0)', lineWidth:3 });
-//    smoothie.addTimeSeries(line2,
-//        { strokeStyle:'rgb(255, 0, 255)', lineWidth:3 });
+    dtheta1Graph.addTimeSeries(dtheta1,
+        { strokeStyle:'rgb(255, 0, 255)', lineWidth:3 });
 
-    return {th2: theta2};
+    theta2Graph.addTimeSeries(theta2,
+        { strokeStyle:'rgb(0, 255, 0)', lineWidth:3 });
+    dtheta2Graph.addTimeSeries(dtheta2,
+        { strokeStyle:'rgb(255, 0, 255)', lineWidth:3 });
+
+    return {th1:theta1, dth1: dtheta1, th2: theta2, dth2: dtheta2};
 
 }

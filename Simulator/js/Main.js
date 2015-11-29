@@ -21,7 +21,7 @@ $( document ).ready(function() {
     var arm2 = new Arm1(threeModel);
     new Rungs(threeModel);
 
-    var serialComm = SerialComm(arm2, graphData);
+    var serialComm = SerialComm(arm1, arm2, graphData);
 
     var templateURL = 'Simulator/js/ui/SetupCommMenuView.html';
 
