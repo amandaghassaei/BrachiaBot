@@ -1139,6 +1139,9 @@ We've spent an enormous amount of time creating and checking these footprints an
 <part name="JP10" library="adafruit" deviceset="PINHD-1X1" device=""/>
 <part name="JP11" library="adafruit" deviceset="PINHD-1X1" device=""/>
 <part name="J1" library="adafruit" deviceset="1X2" device="-3.5MM"/>
+<part name="8V" library="SparkFun" deviceset="VCC" device="" value="8V"/>
+<part name="8V1" library="SparkFun" deviceset="VCC" device="" value="8V"/>
+<part name="8V2" library="SparkFun" deviceset="VCC" device="" value="8V"/>
 </parts>
 <sheets>
 <sheet>
@@ -1158,6 +1161,9 @@ We've spent an enormous amount of time creating and checking these footprints an
 <instance part="JP10" gate="G$1" x="-38.1" y="193.04"/>
 <instance part="JP11" gate="G$1" x="-38.1" y="185.42"/>
 <instance part="J1" gate="G$1" x="101.6" y="187.96"/>
+<instance part="8V" gate="1" x="96.52" y="137.16"/>
+<instance part="8V1" gate="1" x="78.74" y="193.04"/>
+<instance part="8V2" gate="1" x="45.72" y="170.18"/>
 </instances>
 <busses>
 </busses>
@@ -1193,11 +1199,19 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="-38.1" y1="193.04" x2="-27.94" y2="193.04" width="0.1524" layer="91"/>
 <label x="-35.56" y="193.04" size="1.778" layer="95"/>
+<pinref part="JP10" gate="G$1" pin="1"/>
+<wire x1="-38.1" y1="193.04" x2="-40.64" y2="193.04" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="J1" gate="G$1" pin="2"/>
 <wire x1="96.52" y1="187.96" x2="86.36" y2="187.96" width="0.1524" layer="91"/>
 <label x="88.9" y="187.96" size="1.778" layer="95"/>
+</segment>
+<segment>
+<wire x1="-20.32" y1="193.04" x2="-7.62" y2="193.04" width="0.1524" layer="91"/>
+<label x="-15.24" y="193.04" size="1.778" layer="95"/>
+<pinref part="JP8" gate="G$1" pin="1"/>
+<wire x1="-20.32" y1="193.04" x2="-22.86" y2="193.04" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="5V" class="0">
@@ -1441,15 +1455,25 @@ We've spent an enormous amount of time creating and checking these footprints an
 <pinref part="JP3" gate="A" pin="1"/>
 <wire x1="119.38" y1="134.62" x2="101.6" y2="134.62" width="0.1524" layer="91"/>
 <label x="101.6" y="134.62" size="1.778" layer="95"/>
+<pinref part="8V" gate="1" pin="VCC"/>
+<wire x1="101.6" y1="134.62" x2="96.52" y2="134.62" width="0.1524" layer="91"/>
+<wire x1="96.52" y1="134.62" x2="96.52" y2="137.16" width="0.1524" layer="91"/>
+</segment>
+<segment>
+<label x="88.9" y="190.5" size="1.778" layer="95"/>
+<pinref part="8V1" gate="1" pin="VCC"/>
+<wire x1="86.36" y1="190.5" x2="78.74" y2="190.5" width="0.1524" layer="91"/>
+<wire x1="78.74" y1="190.5" x2="78.74" y2="193.04" width="0.1524" layer="91"/>
+<pinref part="J1" gate="G$1" pin="1"/>
+<wire x1="86.36" y1="190.5" x2="96.52" y2="190.5" width="0.1524" layer="91"/>
 </segment>
 <segment>
 <pinref part="JP5" gate="G$1" pin="1"/>
 <wire x1="68.58" y1="165.1" x2="48.26" y2="165.1" width="0.1524" layer="91"/>
 <label x="48.26" y="165.1" size="1.778" layer="95"/>
-</segment>
-<segment>
-<wire x1="99.06" y1="190.5" x2="86.36" y2="190.5" width="0.1524" layer="91"/>
-<label x="88.9" y="190.5" size="1.778" layer="95"/>
+<pinref part="8V2" gate="1" pin="VCC"/>
+<wire x1="48.26" y1="165.1" x2="45.72" y2="165.1" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="165.1" x2="45.72" y2="170.18" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="G_PWM_1" class="0">
@@ -1550,9 +1574,10 @@ We've spent an enormous amount of time creating and checking these footprints an
 <label x="2.54" y="104.14" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="JP11" gate="G$1" pin="1"/>
-<wire x1="-40.64" y1="185.42" x2="-27.94" y2="185.42" width="0.1524" layer="91"/>
+<wire x1="-38.1" y1="185.42" x2="-27.94" y2="185.42" width="0.1524" layer="91"/>
 <label x="-35.56" y="185.42" size="1.778" layer="95"/>
+<pinref part="JP11" gate="G$1" pin="1"/>
+<wire x1="-38.1" y1="185.42" x2="-40.64" y2="185.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="G_INT_2" class="0">
@@ -1585,12 +1610,8 @@ We've spent an enormous amount of time creating and checking these footprints an
 <segment>
 <wire x1="-20.32" y1="185.42" x2="-5.08" y2="185.42" width="0.1524" layer="91"/>
 <label x="-15.24" y="185.42" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="GND_DIS" class="0">
-<segment>
-<wire x1="-20.32" y1="193.04" x2="-7.62" y2="193.04" width="0.1524" layer="91"/>
-<label x="-15.24" y="193.04" size="1.778" layer="95"/>
+<pinref part="JP9" gate="G$1" pin="1"/>
+<wire x1="-20.32" y1="185.42" x2="-22.86" y2="185.42" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
