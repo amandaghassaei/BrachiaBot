@@ -5,6 +5,8 @@
 
 function SerialComm(arm1, arm2, graphData){
 
+    var serialMonitorController = SerialMonitorController();
+
     var SerialComm = Backbone.Model.extend({
 
         defaults: {
@@ -84,7 +86,6 @@ function SerialComm(arm1, arm2, graphData){
                 console.warn("can't open serial monitor if not connected to node server");
                 return;
             }
-            var serialMonitorController = SerialMonitorController();
             serialMonitorController.open();
         }
 
