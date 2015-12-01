@@ -3,7 +3,7 @@
  */
 
 
-define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
+function SerialMonitorController(){
 
     var SerialMonitorView = Backbone.View.extend({
 
@@ -23,7 +23,7 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
                 this.popup.focus();
                 return;
             }
-            this.popup = window.open('js/SerialMonitor/', '', 'height=700, width=900, titlebar=no, toolbar=no, menubar=yes, scrollbars=no, resizable=yes, location=no, directories=no, status=no');
+            this.popup = window.open('Simulator/SerialMonitor/', '', 'height=700, width=900, titlebar=no, toolbar=no, menubar=yes, scrollbars=no, resizable=yes, location=no, directories=no, status=no');
             var self = this;
             $(this.popup).unload(function(){
                 self.onClose();
@@ -44,5 +44,4 @@ define(['jquery', 'underscore', 'backbone'], function($, _, Backbone){
     });
 
     return new SerialMonitorView();
-
-});
+}

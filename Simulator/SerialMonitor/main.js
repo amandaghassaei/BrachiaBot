@@ -6,12 +6,12 @@
 require.config({
 
     paths: {
-        jquery: '../../dependencies/jquery-2.1.3',
-        underscore: '../../dependencies/underscore',
-        backbone: '../../dependencies/backbone',
-        text: '../../dependencies/require/text',
-        three: '../../dependencies/three',
-        socketio: '../../dependencies/socket.io-1.3.5',
+        jquery: '../dependencies/jquery-2.1.3.min',
+        underscore: '../dependencies/underscore-min',
+        backbone: '../dependencies/backbone-min',
+        text: '../dependencies/text',
+        three: '../dependencies/three',
+        socketio: '../dependencies/socket.io-1.3.5',
 
         serialMonitor: 'SerialMonitor',
         serialMonitorView: 'SerialMonitorView',
@@ -21,7 +21,7 @@ require.config({
         commParentMenu: '../menus/CommParentMenu',
         plist: '../plists/PList',
         commPlist: '../plists/commPlist',
-        serialComm: '../models/SerialComm',
+        serialComm: 'SerialComm',
         machineState: '../models/MachineState',
         cam: 'fakeCam'
 
@@ -38,9 +38,8 @@ require.config({
 
 });
 
-require(['serialMonitorView', 'serialMonitor', 'positionControlPanelView', 'serialComm'],
-    function(SerialMonitorView, serialMonitor, PositionControlPanelView, serialComm){
+require(['serialMonitorView', 'serialMonitor'],
+    function(SerialMonitorView, serialMonitor){
 
     new SerialMonitorView({model: serialMonitor});
-    new PositionControlPanelView({model:serialComm});
 });

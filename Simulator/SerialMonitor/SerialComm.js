@@ -3,7 +3,8 @@
  */
 
 
-function SerialComm(arm1, arm2, graphData){
+define(['underscore', 'backbone', 'socketio'],
+    function(_, Backbone, io){
 
     var SerialComm = Backbone.Model.extend({
 
@@ -105,29 +106,7 @@ function SerialComm(arm1, arm2, graphData){
             if (data == "" || data == '\n' || data == "\r") return;
             serialComm.set("lastMessageReceived", data, {silent:true});
             serialComm.trigger("change:lastMessageReceived");
-            try {
-                var json = JSON.parse(data);
-                console.log(json.th1);
-                if (json.th1 !== null) {
-                    var theta1 = parseFloat(json.th1);
-                    if (!isNaN(theta1)){
-                        arm1.setTheta(theta1);
-                        graphData.th1.append(new Date().getTime(), theta1);
-                    }
-                }
-                if (json.dth1 !== null) graphData.dth1.append(new Date().getTime(), parseFloat(json.dth1));
-                if (json.th2 !== null) {
-                    var theta2 = parseFloat(json.th2);
-                    if (!isNaN(theta2)){
-                        arm2.setTheta(theta2);
-                        graphData.th2.append(new Date().getTime(), theta2);
-                    }
-                }
-                if (json.dth2 !== null) graphData.dth2.append(new Date().getTime(), parseFloat(json.dth2));
-
-            } catch(err) {
-    //                console.warn(err);
-            }
+            
         });
 
         socket.on('dataSent', function(data){
@@ -171,4 +150,4 @@ function SerialComm(arm1, arm2, graphData){
     }
 
     return serialComm;
-}
+});

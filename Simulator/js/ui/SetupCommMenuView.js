@@ -14,7 +14,7 @@ function SetupCommMenuView(serialComm, template){
 //            "click #nodeSetupInstructions":                     "_setupInstructions",
             "click #refreshPorts":                              "_refreshPorts",
             "click #reconnectToNode":                           "_reconnectToNode",
-//            "click #openSerialMonitor":                         "_openSerialMonitor"
+            "click #openSerialMonitor":                         "_openSerialMonitor"
         },
 
         __initialize: function(){
@@ -46,10 +46,10 @@ function SetupCommMenuView(serialComm, template){
             serialComm.attemptToConnectToNode();
         },
 
-//        _openSerialMonitor: function(e){
-//            e.preventDefault();
-//            serialComm.openSerialMonitor();
-//        },
+        _openSerialMonitor: function(e){
+            e.preventDefault();
+            serialComm.openSerialMonitor();
+        },
 
         _makeTemplateJSON: function(){
             return _.extend(serialComm.toJSON(), commPList);
