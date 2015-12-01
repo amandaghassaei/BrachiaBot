@@ -1430,6 +1430,11 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <wire x1="76.2" y1="104.14" x2="76.2" y2="106.68" width="0.1524" layer="91"/>
 <label x="53.34" y="104.14" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U$1" gate="G$1" pin="VBUS"/>
+<wire x1="-17.78" y1="147.32" x2="-30.48" y2="147.32" width="0.1524" layer="91"/>
+<label x="-27.94" y="147.32" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="SCL" class="0">
 <segment>
@@ -1801,8 +1806,9 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="D+"/>
-<wire x1="-17.78" y1="142.24" x2="-30.48" y2="142.24" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="142.24" x2="-22.86" y2="142.24" width="0.1524" layer="91"/>
 <label x="-27.94" y="142.24" size="1.778" layer="95"/>
+<wire x1="-22.86" y1="142.24" x2="-30.48" y2="142.24" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="D-" class="0">
@@ -1817,14 +1823,9 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="D-"/>
-<wire x1="-17.78" y1="144.78" x2="-30.48" y2="144.78" width="0.1524" layer="91"/>
+<wire x1="-17.78" y1="144.78" x2="-27.94" y2="144.78" width="0.1524" layer="91"/>
 <label x="-27.94" y="144.78" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="N$1" class="0">
-<segment>
-<pinref part="U$1" gate="G$1" pin="VBUS"/>
-<wire x1="-17.78" y1="147.32" x2="-30.48" y2="147.32" width="0.1524" layer="91"/>
+<wire x1="-27.94" y1="144.78" x2="-30.48" y2="144.78" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
