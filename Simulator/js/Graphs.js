@@ -4,6 +4,37 @@
 
 function initGraphs(){
 
+    $(document).bind('keyup', {}, _onKeyUp);
+
+    function _onKeyUp(e){
+
+        if (!$("input").is(":focus")&& !$("textarea").is(':focus')){
+
+//            console.log(e.keyCode);
+            switch(e.keyCode){
+                case 71://g key - hide graphs
+                    e.preventDefault();
+                    _toggleVisibility();
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    function _toggleVisibility(){
+        if ($("#graphs").css("left") == "0px") _hide();
+        else _show();
+    }
+
+    function _hide(){
+        $("#graphs").animate({left: "-430"});
+    }
+
+    function _show(){
+        $("#graphs").animate({left: "0"});
+    }
+
     var theta1Graph = new SmoothieChart({labels:{disabled:false}});
     theta1Graph.streamTo(document.getElementById("theta1"));
 

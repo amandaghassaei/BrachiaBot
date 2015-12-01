@@ -234,7 +234,7 @@ function MenuWrapper(innerMenu){
 
         _show: function(){
             $("#controls").animate({right: "0"});
-        },
+        }
 
     });
 
