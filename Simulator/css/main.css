@@ -21,8 +21,20 @@ body{
     padding: 20px 10px;
 }
 
+/*#menuWrapper{*/
+    /*height: 100%;*/
+    /*z-index: 2;*/
+    /*position: absolute;*/
+    /*display: block;*/
+    /*background-color: rgba(255,255,255,0.8);*/
+    /*overflow:hidden;*/
+    /*width: 430px;*/
+    /*top: 0;*/
+    /*right: 0px;*//*initially showing*/
+/*}*/
+
 #controls {
-    width: 420px;
+    width: 430px;
     padding: 30px;
     height: 100%;
     background: rgba(255, 255, 255, 0.8);

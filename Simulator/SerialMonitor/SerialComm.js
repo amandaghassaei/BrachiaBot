@@ -106,7 +106,7 @@ define(['underscore', 'backbone', 'socketio'],
             if (data == "" || data == '\n' || data == "\r") return;
             serialComm.set("lastMessageReceived", data, {silent:true});
             serialComm.trigger("change:lastMessageReceived");
-            
+
         });
 
         socket.on('dataSent', function(data){

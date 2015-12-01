@@ -26,6 +26,24 @@ function MenuWrapper(innerMenu){
         },
 
         _onKeyUp: function(e){
+
+            if (!$("input").is(":focus")&& !$("textarea").is(':focus')){
+
+//                console.log(e.keyCode);
+                switch(e.keyCode){
+                case 8://delete key - causes back nav in chrome, super annoying
+                    e.preventDefault();
+                    e.stopPropagation();
+                    break;
+                case 77://m key - hide menu
+                    e.preventDefault();
+                    this._toggleVisibility();
+                    break;
+                default:
+                    break;
+                }
+            }
+
             if ($(".unresponsiveInput").is(":focus")) return;
             if ($("input").is(":focus") && e.keyCode == 13) {//enter key
                 $(e.target).blur();
@@ -37,6 +55,7 @@ function MenuWrapper(innerMenu){
             else if ($(".intInput").is(":focus")) this._updateInt(e);
             else if ($(".textInput").is(":focus")) this._updateString(e);
             else if ($(".hexInput").is(":focus")) this._updateHex(e);
+
         },
 
          _softRenderTab: function(){
@@ -202,7 +221,20 @@ function MenuWrapper(innerMenu){
                 owner[property] = value;
                 this.menu.render();
             }
-        }
+        },
+
+        _toggleVisibility: function(){
+            if ($("#controls").css("right") == "-430px") this._show();
+            else this._hide();
+        },
+
+        _hide: function(){
+            $("#controls").animate({right: "-430"});
+        },
+
+        _show: function(){
+            $("#controls").animate({right: "0"});
+        },
 
     });
 
