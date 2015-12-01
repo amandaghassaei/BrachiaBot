@@ -36,3 +36,12 @@ eagle.epf
 *.drd.*
 
 *.info
+
+mbed/
+.hg/
+*GettingStarted.htm
+*mbed.bld
+*.uvopt
+*.uvproj
+*.hgignore
+*.lib

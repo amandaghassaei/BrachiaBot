@@ -24,9 +24,7 @@ MicroGearMotor::MicroGearMotor(byte dirPin, byte pwmPin, byte currentPin, byte e
   _speedPID = new PD();
   
   _current = 0;
-  _targetCurrent = int(0.8/0.009775);//we'll want to set this to the current needed to place vox
   _currentFilter = new LPFilter();
-  _currentPID = new PD();
 }
 
 void MicroGearMotor::init()
@@ -58,7 +56,6 @@ boolean MicroGearMotor::calibrate()
       this->update();
     }
     this->motorStop();
-    this->update();
     delay(500);
     
     float current = this->getCurrent();
@@ -74,7 +71,6 @@ boolean MicroGearMotor::calibrate()
     this->update();
   }
   this->motorStop();
-  this->update();
   
   
   return true;
@@ -98,11 +94,6 @@ boolean MicroGearMotor::calibrate()
 void MicroGearMotor::setSpeedPIDGains(float proportionalGain, float derivativeGain)
 {
   _speedPID->setGains(proportionalGain, derivativeGain);
-}
-
-void MicroGearMotor::setCurrentPIDGains(float proportionalGain, float derivativeGain)
-{
-  _currentPID->setGains(proportionalGain, derivativeGain);
 }
 
 void MicroGearMotor::moveTo(float targetPosition, float targetSpeed)
@@ -131,7 +122,7 @@ void MicroGearMotor::update()
   
   digitalWrite(_dirPin, pwm > 0);
   analogWrite(_pwmPin, abs(pwm));
-  
+    
   _current = _currentFilter->step(this->_measureCurrent());
   if (_current > MAX_CURRENT) this->motorStop();  
   else _currentLimitHit = false;
@@ -146,6 +137,7 @@ void MicroGearMotor::motorStop()
   
   _targetSpeed = 0;
   _targetPosition = _position;
+  this->update();
 }
 
 long MicroGearMotor::getTicks()

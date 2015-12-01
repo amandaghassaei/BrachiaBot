@@ -1821,6 +1821,12 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <label x="-27.94" y="144.78" size="1.778" layer="95"/>
 </segment>
 </net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="U$1" gate="G$1" pin="VBUS"/>
+<wire x1="-17.78" y1="147.32" x2="-30.48" y2="147.32" width="0.1524" layer="91"/>
+</segment>
+</net>
 </nets>
 </sheet>
 </sheets>
