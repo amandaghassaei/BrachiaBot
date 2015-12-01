@@ -3,8 +3,8 @@
  */
 
 
-define(['underscore', 'backbone', 'socketio'],
-    function(_, Backbone, io){
+define(['underscore', 'backbone', 'socketio', 'machineState'],
+    function(_, Backbone, io, machineState){
 
     var SerialComm = Backbone.Model.extend({
 
@@ -22,7 +22,7 @@ define(['underscore', 'backbone', 'socketio'],
         },
 
         initialize: function(){
-    //        this.machineState = machineState;
+            this.machineState = machineState;
     //        this.listenTo(machineState, "change", this._updateVirtualMachine);
             this.attemptToConnectToNode();
         },
@@ -64,16 +64,16 @@ define(['underscore', 'backbone', 'socketio'],
             this.socket.emit("stopStream");
         },
 
-    //    _updateVirtualMachine: function(){
-    //    },
-    //
-    //    refreshMachineState: function(){//when updating connection, create a new instance of machine state
-    //        this.machineState.refresh();
-    //    },
-    //
-    //    getMachineState: function(){
-    //        return this.machineState;
-    //    },
+        _updateVirtualMachine: function(){
+        },
+
+        refreshMachineState: function(){//when updating connection, create a new instance of machine state
+            this.machineState.refresh();
+        },
+
+        getMachineState: function(){
+            return this.machineState;
+        },
 
         setProperty: function(property, value){//portName, baudRate
             if (property === null || property === undefined || value === null || value === undefined) return;

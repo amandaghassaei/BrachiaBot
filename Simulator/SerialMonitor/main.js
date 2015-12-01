@@ -22,7 +22,7 @@ require.config({
         plist: '../plists/PList',
         commPlist: '../plists/commPlist',
         serialComm: 'SerialComm',
-        machineState: '../models/MachineState',
+        machineState: 'MachineState',
         cam: 'fakeCam'
 
     },
@@ -38,8 +38,9 @@ require.config({
 
 });
 
-require(['serialMonitorView', 'serialMonitor'],
-    function(SerialMonitorView, serialMonitor){
+require(['serialMonitorView', 'serialMonitor', 'positionControlPanelView', 'serialComm'],
+    function(SerialMonitorView, serialMonitor, PositionControlPanelView, serialComm){
 
     new SerialMonitorView({model: serialMonitor});
+    new PositionControlPanelView({model: serialComm});
 });
