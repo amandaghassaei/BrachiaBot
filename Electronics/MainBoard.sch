@@ -1506,13 +1506,6 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <label x="-7.62" y="73.66" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="A18" class="0">
-<segment>
-<pinref part="JP1" gate="A" pin="18"/>
-<wire x1="15.24" y1="63.5" x2="-7.62" y2="63.5" width="0.1524" layer="91"/>
-<label x="-7.62" y="63.5" size="1.778" layer="95"/>
-</segment>
-</net>
 <net name="3.3V" class="0">
 <segment>
 <pinref part="JP2" gate="A" pin="20"/>
@@ -1736,6 +1729,11 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <pinref part="JP4" gate="G$1" pin="5"/>
 <wire x1="38.1" y1="154.94" x2="17.78" y2="154.94" width="0.1524" layer="91"/>
 <label x="17.78" y="154.94" size="1.778" layer="95"/>
+</segment>
+<segment>
+<pinref part="JP1" gate="A" pin="18"/>
+<wire x1="15.24" y1="63.5" x2="-7.62" y2="63.5" width="0.1524" layer="91"/>
+<label x="-7.62" y="63.5" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="G_CS_2" class="0">
