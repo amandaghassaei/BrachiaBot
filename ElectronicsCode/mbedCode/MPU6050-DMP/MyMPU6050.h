@@ -7,13 +7,13 @@ Copyright (c) 2012 Jeff Rowberg
 
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
-#include "CommDelegate.h"
+# define M_PI           3.14159265358979323846
 
-class MyMPU6050: public CommDelegate {
+class MyMPU6050 {
     
     public:
     
-        MyMPU6050(PinName i2cSda, PinName i2cScl) : mpu(i2cSda, i2cScl), checkpin(p11){
+        MyMPU6050(PinName i2cSda, PinName i2cScl, PinName interrupt) : mpu(i2cSda, i2cScl), checkpin(interrupt){
             this->setup(); 
         }
         
@@ -66,7 +66,12 @@ class MyMPU6050: public CommDelegate {
                 mpu.dmpGetGravity(&gravity, &q);
                 mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
                 mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-                theta = ypr[2];
+                if (ypr[1]>0) theta = ypr[2];
+                else if (ypr[2]<0) theta = -M_PI-ypr[2];
+                else theta = M_PI-ypr[2];
+                
+//                theta = ypr[1];
+                
                 mpu.dmpGetGyro(gyroData, fifoBuffer);
                 dtheta = gyroData[2];
             }
@@ -80,12 +85,12 @@ class MyMPU6050: public CommDelegate {
             return theta;
         }
         
-        float getDtheta(){
+        float getDTheta(){
             return dtheta;
         }
 
     private:
-
+    
         MPU6050 mpu;
         
         bool dmpReady;  // set true if DMP init was successful
@@ -105,6 +110,7 @@ class MyMPU6050: public CommDelegate {
     
         InterruptIn checkpin;
         volatile bool mpuInterrupt;
+        
         
         void setup() {
             

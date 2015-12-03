@@ -7,9 +7,11 @@ class CommDelegate//parent class
     
       CommDelegate(){}//constructor method
       
-        //imu
-        float virtual getTheta(){return 0.0;}
-        float virtual getDtheta(){return 0.0;}
+        //thetas
+        float virtual getTheta1(){return 0.0;}
+        float virtual getDTheta1(){return 0.0;}
+        float virtual getTheta2(){return 0.0;}
+        float virtual getDTheta2(){return 0.0;}
       
         //gains
         void virtual setGains(float k1, float d1, float k2, float d2){};
@@ -28,6 +30,8 @@ class CommDelegate//parent class
         int virtual getPosition(){return 0;};
       
     protected:
+    
+        
          
 };
 

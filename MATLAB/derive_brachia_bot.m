@@ -50,7 +50,7 @@ Q_tau2 = M2Q(tau2*zhat, dth2*zhat);
 Q = Q_tau1 + Q_tau2;
 
 %derive eqs of motion
-E = Ttotal + Vtotal;
+E = simplify(Ttotal + Vtotal);
 L = Ttotal - Vtotal;
 eom = ddt(jacobian(L,dq).') - jacobian(L,q).' - Q;
 

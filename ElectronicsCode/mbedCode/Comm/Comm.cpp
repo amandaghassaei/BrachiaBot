@@ -1,12 +1,11 @@
 #include "Comm.h"
 
     
-Comm::Comm(CommDelegate *gains, CommDelegate *target, CommDelegate *myMPU6050_1):_pc(USBTX, USBRX), _json(&_pc)
+Comm::Comm(CommDelegate *gains, CommDelegate *target):_pc(USBTX, USBRX), _json(&_pc)
 {
     _pc.baud(115200);
     _gains = gains;
     _target = target;
-    _myMPU6050_1 = myMPU6050_1;
 }
 
 void Comm::openGripper1(Arguments* input, Reply* output){
@@ -80,11 +79,15 @@ void Comm::printTarget(){
     _json.close();
 }
 
-void Comm::printPosition(){
+void Comm::printPosition(CommDelegate *controls){
     _json.open();
-    _json.print("th1", _myMPU6050_1->getTheta());
+    _json.print("th1", controls->getTheta1());
+//    _json.sepItem();
+//    _json.print("dth1", controls->getDTheta1());
     _json.sepItem();
-    _json.print("dth1", _myMPU6050_1->getDtheta());
+    _json.print("th2", controls->getTheta2());
+//    _json.sepItem();
+//    _json.print("dth2", controls->getDTheta2());
     _json.close();
 }
 

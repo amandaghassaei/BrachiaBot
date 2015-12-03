@@ -2,7 +2,6 @@
 #define Comm_h
 
 #include "json.h"
-#include "Target.h"
 #include "CommDelegate.h"  
 #include "mbed_rpc.h" 
 
@@ -11,7 +10,7 @@ class Comm{
     
     public:
     
-        Comm(CommDelegate *gains, CommDelegate *target, CommDelegate *myMPU6050_1);
+        Comm(CommDelegate *gains, CommDelegate *target);
         
         void openGripper1(Arguments* input, Reply* output);
         void closeGripper1(Arguments* input, Reply* output);
@@ -26,7 +25,7 @@ class Comm{
         void setTarget(Arguments* input, Reply* output);
         void printTarget();
         
-        void printPosition();
+        void printPosition(CommDelegate *controls);
         
         void check();
         
@@ -41,7 +40,6 @@ class Comm{
         JSON _json;
         CommDelegate *_gains;
         CommDelegate *_target;
-        CommDelegate *_myMPU6050_1;
 //        volatile bool newline_detected = false;
  
 };

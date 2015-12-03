@@ -1,25 +1,17 @@
 #include "mbed.h"
-#include "mbed_rpc.h"
-
-#include "MyMPU6050.h"    
-#include "Gains.h"
-#include "Target.h"
-
+#include "mbed_rpc.h" 
 #include "Comm.h"
-//#include "CommWrapper.h"
+#include "Controls.h"
 
-Gains gains;
-Target target;
-MyMPU6050 myMPU6050_1(p9, p10);//I2C_SDA, I2C_SCL
-
-Comm comm(&gains, &target, &myMPU6050_1);
+Controls controls;
+Comm comm(&(controls.gains), &(controls.target));
 
 int main() {
     
     while(1) {
-        myMPU6050_1.loop();
+        controls.loop();
         comm.check();
-        comm.printPosition();
+        comm.printPosition(&controls);
     }
 }
 
@@ -46,6 +38,15 @@ void setGains(Arguments * input, Reply * output){
 };
 RPCFunction SetGains(&setGains, "SetGains");
 void setTarget(Arguments * input, Reply * output){
+    comm.setTarget(input, output);
+};
+RPCFunction SetTarget(&setTarget, "SetTarget");
+
+
+
+
+
+* input, Reply * output){
     comm.setTarget(input, output);
 };
 RPCFunction SetTarget(&setTarget, "SetTarget");
