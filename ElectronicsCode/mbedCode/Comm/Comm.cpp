@@ -9,11 +9,11 @@ Comm::Comm(CommDelegate *gains, CommDelegate *target, CommDelegate *myMPU6050_1)
     _myMPU6050_1 = myMPU6050_1;
 }
 
-void Comm::openGripper1(){
+void Comm::openGripper1(Arguments* input, Reply* output){
     printGripper1State(true);
 }
 
-void Comm::closeGripper1(){
+void Comm::closeGripper1(Arguments* input, Reply* output){
     printGripper1State(false);
 }
 
@@ -24,11 +24,11 @@ void Comm::printGripper1State(bool state){
     _json.close();
 }
 
-void Comm::openGripper2(){
+void Comm::openGripper2(Arguments* input, Reply* output){
     printGripper2State(true);
 }
 
-void Comm::closeGripper2(){
+void Comm::closeGripper2(Arguments* input, Reply* output){
     printGripper2State(false);
 }
 
@@ -39,8 +39,17 @@ void Comm::printGripper2State(bool state){
     _json.close();
 }
 
-void Comm::setGains(float k1, float d1, float k2, float d2){
+void Comm::setGains(Arguments* input, Reply* output){
+    if (input->argc < _gains->numGains()){
+        throwNotEnoughArgsError();
+        return;
+    }
+    float k1 = input->getArg<float>(); 
+    float d1 = input->getArg<float>(); 
+    float k2 = input->getArg<float>();  
+    float d2 = input->getArg<float>(); 
     _gains->setGains(k1, d1, k2, d2);
+    printGains();
 }
 
 void Comm::printGains(){
@@ -55,8 +64,14 @@ void Comm::printGains(){
     _json.close();
 }
 
-void Comm::setTarget(int targetPosition){
+void Comm::setTarget(Arguments* input, Reply* output){
+    if (input->argc < 1){
+        throwNotEnoughArgsError();
+        return;
+    }
+    int targetPosition = input->getArg<int>(); 
     _target->setPosition(targetPosition);
+    printTarget();
 }
 
 void Comm::printTarget(){
@@ -73,15 +88,16 @@ void Comm::printPosition(){
     _json.close();
 }
 
-//void Comm::check(){
-//    if (newline_detected){
-//        printTarget();
-//    }
-//}
-//
-//void rxCallback(MODSERIAL_IRQ_INFO *q) {
-//    MODSERIAL *serial = q->serial;
-//    if ( serial->rxGetLastChar() == '\n') {
-//        newline_detected = true;
-//    }
-//}
+void Comm::check(){
+    if(!_pc.readable()) return;
+    _pc.gets(buf, 256);
+    //Call the static call method on the RPC class
+    RPC::call(buf, outbuf); 
+//    _pc.printf("%s\n", outbuf);
+}
+
+void Comm::throwNotEnoughArgsError(){
+    _json.open();
+    _json.print("error", "not enough input arguments");
+    _json.close();
+}

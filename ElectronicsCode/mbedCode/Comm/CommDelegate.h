@@ -21,10 +21,11 @@ class CommDelegate//parent class
         float virtual getD1(){return 0;};
         float virtual getK2(){return 0;};
         float virtual getD2(){return 0;};
+        int virtual numGains(){return 0;};
         
         //target
-        void virtual setPosition(int position){}
-        int virtual getPosition(){return 0;}
+        void virtual setPosition(int position){};
+        int virtual getPosition(){return 0;};
       
     protected:
          

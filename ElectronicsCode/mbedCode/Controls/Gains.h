@@ -11,6 +11,10 @@ class Gains: public CommDelegate {
             setGains(12, 4.5, 200, 3);
         }
         
+        int numGains(){
+            return 4;
+        }
+        
         void setGains(float k1, float d1, float k2, float d2){
             setK1(k1);
             setD1(d1);

@@ -1,11 +1,10 @@
 #ifndef Comm_h
 #define Comm_h
 
-//#include "mbed.h"
 #include "json.h"
 #include "Target.h"
-#include "CommDelegate.h"   
-//#include "MODSERIAL.h"
+#include "CommDelegate.h"  
+#include "mbed_rpc.h" 
 
 
 class Comm{
@@ -14,27 +13,31 @@ class Comm{
     
         Comm(CommDelegate *gains, CommDelegate *target, CommDelegate *myMPU6050_1);
         
-        void openGripper1();
-        void closeGripper1();
+        void openGripper1(Arguments* input, Reply* output);
+        void closeGripper1(Arguments* input, Reply* output);
         void printGripper1State(bool state);
-        void openGripper2();
-        void closeGripper2();
+        void openGripper2(Arguments* input, Reply* output);
+        void closeGripper2(Arguments* input, Reply* output);
         void printGripper2State(bool state);
         
-        void setGains(float k1, float d1, float k2, float d2);
+        void setGains(Arguments* input, Reply* output);
         void printGains();
         
-        void setTarget(int targetPosition);
+        void setTarget(Arguments* input, Reply* output);
         void printTarget();
         
         void printPosition();
         
-//        void check();
+        void check();
         
+        Serial _pc;
             
     private:
     
-        Serial _pc;
+        void throwNotEnoughArgsError();
+        
+        char buf[256], outbuf[256];
+        
         JSON _json;
         CommDelegate *_gains;
         CommDelegate *_target;

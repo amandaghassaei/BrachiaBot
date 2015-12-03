@@ -42,7 +42,7 @@
 <layer number="42" name="bRestrict" color="1" fill="10" visible="no" active="yes"/>
 <layer number="43" name="vRestrict" color="2" fill="10" visible="no" active="yes"/>
 <layer number="44" name="Drills" color="7" fill="1" visible="no" active="yes"/>
-<layer number="45" name="Holes" color="7" fill="1" visible="no" active="yes"/>
+<layer number="45" name="Holes" color="7" fill="1" visible="yes" active="yes"/>
 <layer number="46" name="Milling" color="3" fill="1" visible="no" active="yes"/>
 <layer number="47" name="Measures" color="7" fill="1" visible="no" active="yes"/>
 <layer number="48" name="Document" color="7" fill="1" visible="no" active="yes"/>
@@ -127,7 +127,7 @@
 <wire x1="162.54" y1="0" x2="162.54" y2="117.78" width="0" layer="20"/>
 <wire x1="162.54" y1="117.78" x2="-11.43" y2="117.78" width="0" layer="20"/>
 <wire x1="-11.43" y1="117.78" x2="-11.43" y2="0" width="0" layer="20"/>
-<rectangle x1="18.7325" y1="77.7875" x2="33.9725" y2="93.0275" layer="25"/>
+<rectangle x1="17.4625" y1="76.5175" x2="32.7025" y2="91.7575" layer="25"/>
 <wire x1="39.8405" y1="10.016440625" x2="39.8405" y2="9.516440625" width="0" layer="45"/>
 <wire x1="3.840509375" y1="12.056440625" x2="3.840509375" y2="43.756440625" width="0" layer="45"/>
 <wire x1="46.79315" y1="103.63733125" x2="46.634490625" y2="104.285940625" width="0" layer="45"/>

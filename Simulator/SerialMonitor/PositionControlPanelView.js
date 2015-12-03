@@ -23,10 +23,6 @@ define(['jquery', 'underscore', 'backbone', 'text!PositionControlPanelView.html'
             this.listenTo(this.model.getMachineState(), "change", this._renderPositionData);
             this.render();
             this._askForPosition();
-
-            this.model.send('{"sr":{"stat":t, "posx":t, "posy":t, "posz":t, "posa":t, "line":t}}');
-            this.model.send('$ej=1');
-            this.model.send('$sv=2');
         },
 
         _renderPositionData: function(){
@@ -36,7 +32,7 @@ define(['jquery', 'underscore', 'backbone', 'text!PositionControlPanelView.html'
 
         _askForPosition: function(e){//todo should be in machine state init
             if (e) e.preventDefault();
-            this.model.send('{"sr":n}');
+//            this.model.send('{"sr":n}');
         },
 
         _stopMachine: function(e){
