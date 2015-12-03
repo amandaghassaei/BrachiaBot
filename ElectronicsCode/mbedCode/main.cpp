@@ -15,6 +15,6 @@ int main() {
     
     while(1) {
         myMPU6050_1.loop();
-        comm.printPosition();
+        comm.printTarget();
     }
 }

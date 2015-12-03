@@ -3,9 +3,8 @@
 
 //#include "mbed.h"
 #include "json.h"
-#include "Gains.h"
 #include "Target.h"
-#include "Delegate.h"   
+#include "CommDelegate.h"   
 //#include "MODSERIAL.h"
 
 
@@ -13,7 +12,7 @@ class Comm{
     
     public:
     
-        Comm(Gains *gains, Target *target, Delegate *myMPU6050_1);
+        Comm(CommDelegate *gains, CommDelegate *target, CommDelegate *myMPU6050_1);
         
         void openGripper1();
         void closeGripper1();
@@ -37,9 +36,9 @@ class Comm{
     
         Serial _pc;
         JSON _json;
-        Gains *_gains;
-        Target *_target;
-        Delegate *_myMPU6050_1;
+        CommDelegate *_gains;
+        CommDelegate *_target;
+        CommDelegate *_myMPU6050_1;
 //        volatile bool newline_detected = false;
  
 };

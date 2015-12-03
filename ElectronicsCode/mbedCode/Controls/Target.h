@@ -1,7 +1,9 @@
 #ifndef Target_h
 #define Target_h
 
-class Target{
+#include "CommDelegate.h"
+
+class Target: public CommDelegate{
 
     public:
     

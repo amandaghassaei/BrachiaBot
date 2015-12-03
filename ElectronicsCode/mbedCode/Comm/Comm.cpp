@@ -1,7 +1,7 @@
 #include "Comm.h"
 
     
-Comm::Comm(Gains *gains, Target *target, Delegate *myMPU6050_1):_pc(USBTX, USBRX), _json(&_pc)
+Comm::Comm(CommDelegate *gains, CommDelegate *target, CommDelegate *myMPU6050_1):_pc(USBTX, USBRX), _json(&_pc)
 {
     _pc.baud(115200);
     _gains = gains;
@@ -41,7 +41,6 @@ void Comm::printGripper2State(bool state){
 
 void Comm::setGains(float k1, float d1, float k2, float d2){
     _gains->setGains(k1, d1, k2, d2);
-    printGains();
 }
 
 void Comm::printGains(){
@@ -58,7 +57,6 @@ void Comm::printGains(){
 
 void Comm::setTarget(int targetPosition){
     _target->setPosition(targetPosition);
-    printTarget();
 }
 
 void Comm::printTarget(){

@@ -1,7 +1,9 @@
 #ifndef Gains_h
 #define Gains_h
 
-class Gains {
+#include "CommDelegate.h"
+
+class Gains: public CommDelegate {
     
     public:
     

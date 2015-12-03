@@ -7,9 +7,9 @@ Copyright (c) 2012 Jeff Rowberg
 
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
-#include "Delegate.h"
+#include "CommDelegate.h"
 
-class MyMPU6050: public Delegate {
+class MyMPU6050: public CommDelegate {
     
     public:
     
