@@ -108,7 +108,6 @@ function SerialComm(arm1, arm2, graphData){
             serialComm.trigger("change:lastMessageReceived");
             try {
                 var json = JSON.parse(data);
-                console.log(json);
                 if (json.th1 !== null && json.th1 !== undefined) {
                     var theta1 = parseFloat(json.th1);
                     if (!isNaN(theta1)){
