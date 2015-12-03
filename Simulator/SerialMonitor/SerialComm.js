@@ -105,8 +105,12 @@ define(['underscore', 'backbone', 'socketio', 'machineState'],
         socket.on('dataIn', function(data){
             if (data == "" || data == '\n' || data == "\r") return;
             serialComm.set("lastMessageReceived", data, {silent:true});
-            serialComm.trigger("change:lastMessageReceived");
-
+            try {
+                var json = JSON.parse(data);
+                machineState.setData(json);
+            } catch(err) {
+    //                console.warn(err);
+            }
         });
 
         socket.on('dataSent', function(data){

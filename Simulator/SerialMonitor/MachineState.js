@@ -18,7 +18,7 @@ define(['underscore', 'backbone'], function(_, Backbone){
             d2: null
         },
 
-        setPosition: function(data){
+        setData: function(data){
             var self = this;
             _.each(this.attributes, function(attribute, key){
                 var val = data["pos" + key];
