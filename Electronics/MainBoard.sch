@@ -1337,6 +1337,7 @@ Variants with postfix FAB are widened to allow the routing of internal traces</d
 <sheets>
 <sheet>
 <plain>
+<text x="83.82" y="167.64" size="1.778" layer="91">5V  and analog cs</text>
 </plain>
 <instances>
 <instance part="JP1" gate="A" x="17.78" y="83.82"/>

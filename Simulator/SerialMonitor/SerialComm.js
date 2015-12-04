@@ -111,6 +111,7 @@ define(['underscore', 'backbone', 'socketio', 'machineState'],
                 if (json.th1 === undefined) serialComm.trigger("change:lastMessageReceived");
                 machineState.setData(json);
             } catch(err) {
+                serialComm.trigger("change:lastMessageReceived");
     //                console.warn(err);
             }
         });
