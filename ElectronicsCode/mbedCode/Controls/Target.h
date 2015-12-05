@@ -1,14 +1,17 @@
 #ifndef Target_h
 #define Target_h
 
-#include "CommDelegate.h"
 
-class Target: public CommDelegate{
+class Target{
 
     public:
     
         Target(){
             setPosition(6);
+        }
+        
+        void setPC(Serial *pc){
+            _pc = pc;
         }
     
         void setPosition(int position){
@@ -21,6 +24,8 @@ class Target: public CommDelegate{
     
     
     private:
+    
+        Serial *_pc;
     
         int _position;
     

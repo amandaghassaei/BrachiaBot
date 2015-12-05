@@ -1,59 +1,57 @@
 #ifndef Gains_h
 #define Gains_h
 
-#include "CommDelegate.h"
+#include "mbed.h"
 
-class Gains: public CommDelegate {
+class Gains {
     
     public:
     
         Gains(){
-            setGains(12, 4.5, 200, 3);
+            setSwingUpK(10);
+            setSwingUpD(1);
+            setCurrentP(10);
+            setCurrentD(0);
         }
         
-        int numGains(){
-            return 4;
+        void setPC(Serial *pc){
+            _pc = pc;
         }
         
-        void setGains(float k1, float d1, float k2, float d2){
-            setK1(k1);
-            setD1(d1);
-            setK2(k2);
-            setD2(d2);
+        void setSwingUpK(float k){
+            _swingUpK = k;
+        };
+        void setSwingUpD(float d){
+            _swingUpD = d;
+        };
+        void setCurrentP(float p){
+            _currentP = p;
+        };
+        void setCurrentD(float d){
+            _currentD = d;
         };
         
-        void setK1(float k1){
-            _k1 = k1;
+        float getSwingUpK(){
+            return _swingUpK;
         };
-        void setD1(float d1){
-            _d1 = d1;
+        float getSwingUpD(){
+            return _swingUpD;
         };
-        void setK2(float k2){
-            _k2 = k2;
+        float getCurrentP(){
+            return _currentP;
         };
-        void setD2(float d2){
-            _d2 = d2;
-        };
-        
-        float getK1(){
-            return _k1;
-        };
-        float getD1(){
-            return _d1;
-        };
-        float getK2(){
-            return _k2;
-        };
-        float getD2(){
-            return _d2;
+        float getCurrentD(){
+            return _currentD;
         };
     
     private:
     
-        float _k1;
-        float _d1;
-        float _k2;
-        float _d2;
+        Serial *_pc;
+    
+        float _swingUpK;
+        float _swingUpD;
+        float _currentP;
+        float _currentD;
     
 };
 

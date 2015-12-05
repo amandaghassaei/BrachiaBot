@@ -12,16 +12,16 @@ define(['underscore', 'backbone'], function(_, Backbone){
             dth1: null,
             th2: null,
             dth2: null,
-            k1: null,
-            d1: null,
-            k2: null,
-            d2: null
+            swingUpK: null,
+            swingUpD: null,
+            currentP: null,
+            currentD: null
         },
 
         setData: function(data){
             var self = this;
             _.each(this.attributes, function(attribute, key){
-                var val = data["pos" + key];
+                var val = data[key];
                 if (val !== null && val !== undefined) self.set(key, val);
             });
         },

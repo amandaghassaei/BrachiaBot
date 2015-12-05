@@ -9,18 +9,25 @@ Copyright (c) 2012 Jeff Rowberg
 #include "MPU6050_6Axis_MotionApps20.h"
 # define M_PI           3.14159265358979323846
 
+
 class MyMPU6050 {
     
     public:
     
         MyMPU6050(PinName i2cSda, PinName i2cScl, PinName interrupt) : mpu(i2cSda, i2cScl), checkpin(interrupt){
-            this->setup(); 
+            resetTheta();
+        }
+        
+        void setPC(Serial *pc){
+            _pc = pc;
         }
         
         void loop() {
             // if programming failed, don't try to do anything
             if (!dmpReady) return;
-        
+            
+//            _pc->printf("dmp ready\n");
+            
             // wait for MPU interrupt or extra packet(s) available
             if (!mpuInterrupt && fifoCount < packetSize) {
                 return;
@@ -35,7 +42,9 @@ class MyMPU6050 {
                 // .
                 // .
             }
-        
+            
+//            _pc->printf("mpu interrupt \n");
+                                
             // reset interrupt flag and get INT_STATUS byte
             mpuInterrupt = false;
             mpuIntStatus = mpu.getIntStatus();
@@ -47,7 +56,7 @@ class MyMPU6050 {
             if ((mpuIntStatus & 0x10) || fifoCount == 1024) {
                 // reset so we can continue cleanly
                 mpu.resetFIFO();
-                //Serial.println(F("FIFO overflow!"));
+                _pc->printf("FIFO overflow!\n");
         
             // otherwise, check for DMP data ready interrupt (this should happen frequently)
             } else if (mpuIntStatus & 0x02) {
@@ -66,14 +75,26 @@ class MyMPU6050 {
                 mpu.dmpGetGravity(&gravity, &q);
                 mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
                 mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-                if (ypr[1]>0) theta = ypr[2];
-                else if (ypr[2]<0) theta = -M_PI-ypr[2];
-                else theta = M_PI-ypr[2];
-                
-//                theta = ypr[1];
+                float newTheta;
+                if (ypr[1]>0) newTheta = ypr[2];
+                else if (ypr[2]<0) newTheta = -M_PI-ypr[2];
+                else newTheta = M_PI-ypr[2];
                 
                 mpu.dmpGetGyro(gyroData, fifoBuffer);
-                dtheta = gyroData[2];
+                float newDTheta = gyroData[2]/180.0*M_PI;
+                
+                if (!thetaInitFlag && abs(newTheta-theta)>0.3) {
+//                    _pc->printf("IMU interrupt clash\n");
+                    mpu.resetFIFO();
+                } else {
+                    thetaInitFlag = false;
+                    theta = newTheta;
+                    dtheta = newDTheta;
+//                    _pc->printf("loop %f\n", theta);
+                }
+                                
+                                
+                
             }
         }
         
@@ -82,14 +103,36 @@ class MyMPU6050 {
         }
         
         float getTheta(){
+//            _pc->printf("%f\n", theta);
             return theta;
         }
         
         float getDTheta(){
             return dtheta;
         }
+        
+        void disable(){
+            dmpReady = false;            
+            mpuInterrupt = false;
+            checkpin.rise(NULL);
+        }
+        
+        void disableInterrupt(){
+            mpuInterrupt = false;
+            checkpin.rise(NULL);
+        }
+        
+        void enable(){
+            setup();
+        }
+        
+        void enableInterrupt(){
+            checkpin.rise(this, &MyMPU6050::dmpDataReady);
+        }
 
     private:
+    
+        Serial *_pc;
     
         MPU6050 mpu;
         
@@ -105,17 +148,23 @@ class MyMPU6050 {
         VectorFloat gravity;    // [x, y, z]            gravity vector
         float ypr[3];           // [yaw, pitch, roll]   yaw/pitch/roll container and gravity vector
         int16_t gyroData[3];
-        float theta;
-        float dtheta;
+        volatile float theta;
+        bool thetaInitFlag;
+        volatile float dtheta;
     
         InterruptIn checkpin;
         volatile bool mpuInterrupt;
         
         
-        void setup() {
-            
+        void resetTheta(){
             theta = 0;
             dtheta = 0;
+            thetaInitFlag = true;
+        }
+        
+        void setup() {
+            
+            resetTheta();
             
             dmpReady = false;            
             mpuInterrupt = false;     // indicates whether MPU interrupt pin has gone high

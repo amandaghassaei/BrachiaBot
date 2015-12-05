@@ -175,7 +175,7 @@ io.on('connection', function(socket){
     }
 
     function onPortData(data){
-//        console.log(data);
+        console.log(data);
         io.emit('dataIn', data);
     }
 

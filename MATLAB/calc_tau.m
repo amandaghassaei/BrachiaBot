@@ -14,16 +14,16 @@ function tau = calc_tau(z, p)
     % Forces
     E = energy_brachia_bot(z, p);
     
-    A_hat22 = A(2,2)-A(2,1)*A(1,2)/A(1,1);
+    A_hat22 = A(2,2)-A(2,1)*A(1,2)/A(1,1)
     K = 100;
     D = 10;
     
-    z_des = final_z(2, p(1), p(10));
+    z_des = final_z(5, p(1), p(10));
     if (energy_brachia_bot(z_des, p) < E)
         th2_des = sign(th2)*2*pi/3;
-        K = 1000;
+%         K = 1000;
     else
-        th2_des = theta_desired(3*pi/6, th1, th2, dth1, dth2);
+        th2_des = theta_desired(5*pi/6, th1, th2, dth1, dth2);
     end
     
     v = K*(th2_des - th2) - D*dth2;% + k3*u_hat;

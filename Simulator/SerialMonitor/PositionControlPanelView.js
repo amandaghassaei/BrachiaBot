@@ -14,7 +14,8 @@ define(['jquery', 'underscore', 'backbone', 'text!PositionControlPanelView.html'
         events: {
             "click #stopMachine":                           "_stopMachine",
             "click #pauseOutput":                           "_pause",
-            "click #askForPosition":                        "_askForPosition"
+            "click #askForPosition":                        "_askForPosition",
+            "click #askForGains":                           "_askForGains"
         },
 
 
@@ -30,9 +31,14 @@ define(['jquery', 'underscore', 'backbone', 'text!PositionControlPanelView.html'
             $("#positionData").html(_.template(positionTemplate)(machineState.toJSON()));
         },
 
-        _askForPosition: function(e){//todo should be in machine state init
+        _askForPosition: function(e){
             if (e) e.preventDefault();
-//            this.model.send('{"sr":n}');
+            this.model.send('/PrintPosition/run');
+        },
+
+        _askForPosition: function(e){
+            if (e) e.preventDefault();
+            this.model.send('/PrintGains/run');
         },
 
         _stopMachine: function(e){

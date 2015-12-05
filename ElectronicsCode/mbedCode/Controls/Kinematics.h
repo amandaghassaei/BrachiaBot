@@ -2,11 +2,11 @@
 #define Kinematics_h
 
     
-void getMassMatrix(float A[2][2]);
+void getMassMatrix(float A[2][2], volatile float z[4], float p[10]);
 float getPositionOfFoot();
-float getEnergy(float z[4], float p[10]);
-float getGravity(float z[4], float p[10]);
-float getCoriolis(float z[4], float p[10]);
+float getEnergy(volatile float z[4], float p[10]);
+float getGravity(volatile float z[4], float p[10]);
+float getCoriolis(volatile float z[4], float p[10]);
 
 
 #endif

@@ -4,16 +4,36 @@
 #include "Controls.h"
 
 Controls controls;
-Comm comm(&(controls.gains), &(controls.target));
+Comm comm(&controls);
+
+long serialCounter = 0;
+
+
+Ticker controlsInterrupt;
+
 
 int main() {
-    
+    controls.setPC(comm.getPC());
+    controls.setup();
+//    comm.printPosition();
+//    comm.printGains();
+
+    controlsInterrupt.attach_us(&controls, &Controls::loop, 1000);
+
     while(1) {
-        controls.loop();
+        controls.updateIMUS();
         comm.check();
-        comm.printPosition(&controls);
+        if (serialCounter++>1000000) {
+//            comm.getPC()->printf("%f\n", controls.getTheta1());
+//            comm.getPC()->printf("%f", controls.motor.getPWM());
+            serialCounter = 0;
+//            comm.getPC()->printf("%f\n", controls.motor.getTorque());
+        }
     }
 }
+
+
+
 
 
 //wrappers for comm stack
@@ -33,23 +53,39 @@ void closeGripper2Wrapper(Arguments * input, Reply * output){
     comm.closeGripper2(input, output);
 };
 RPCFunction CloseGripper2(&closeGripper2Wrapper, "CloseGripper2");
-void setGains(Arguments * input, Reply * output){
-    comm.setGains(input, output);
+void setSwingUpKWrapper(Arguments * input, Reply * output){
+    comm.setSwingUpK(input, output);
 };
-RPCFunction SetGains(&setGains, "SetGains");
-void setTarget(Arguments * input, Reply * output){
+RPCFunction SetSwingUpK(&setSwingUpKWrapper, "SetSwingUpK");
+void setSwingUpDWrapper(Arguments * input, Reply * output){
+    comm.setSwingUpD(input, output);
+};
+RPCFunction SetSwingUpD(&setSwingUpDWrapper, "SetSwingUpD");
+void setCurrentPWrapper(Arguments * input, Reply * output){
+    comm.setCurrentP(input, output);
+};
+RPCFunction SetCurrentP(&setCurrentPWrapper, "SetCurrentP");
+void setCurrentDWrapper(Arguments * input, Reply * output){
+    comm.setCurrentD(input, output);
+};
+RPCFunction SetCurrentD(&setCurrentDWrapper, "SetCurrentD");
+void setTargetWrapper(Arguments * input, Reply * output){
     comm.setTarget(input, output);
 };
-RPCFunction SetTarget(&setTarget, "SetTarget");
-
-
-
-
-
-* input, Reply * output){
-    comm.setTarget(input, output);
+RPCFunction SetTarget(&setTargetWrapper, "SetTarget");
+void setTorqueWrapper(Arguments * input, Reply * output){
+    comm.setTorque(input, output);
 };
-RPCFunction SetTarget(&setTarget, "SetTarget");
+RPCFunction SetTorque(&setTorqueWrapper, "SetTorque");
+void printGainsWrapper(Arguments * input, Reply * output){
+    comm.printGains();
+};
+RPCFunction PrintGains(&printGainsWrapper, "PrintGains");
+void printPositionWrapper(Arguments * input, Reply * output){
+    comm.printPosition();
+};
+RPCFunction PrintPosition(&printPositionWrapper, "PrintPosition");
+
 
 
 
