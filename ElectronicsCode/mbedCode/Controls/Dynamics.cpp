@@ -18,7 +18,7 @@ float calcTau(volatile float z[4], float p[10], Gains *gains, Serial *pc){
     float K = gains->getSwingUpK();
     float D = gains->getSwingUpD();
     
-    float th2Des = thetaDesired(3*M_PI/6, th1, th2, dth1, dth2);
+    float th2Des = thetaDesired(3*M_PI/6.0, th1, th2, dth1, dth2);
     
     float v = K*(th2Des - th2) - D*dth2;// + k3*u_hat;
     float energyIncr = A_hat22*v;
@@ -39,14 +39,14 @@ float calcTau(volatile float z[4], float p[10], Gains *gains, Serial *pc){
 
 float thetaDesired(float range, float th1, float th2, float dth1, float dth2){
     
-//    int numTurns = fix(th1/(2*M_PI));
-    float th1Rel = th1;//-numTurns*2*M_PI;
+    int numTurns = fix(th1/(2*M_PI));
+    float th1Rel = th1-numTurns*2*M_PI;
     
     return signNonZero(dth1)*(range-abs(th1Rel));//*cos(th1)
 }
 
 int fix(float val){//round toward zero
-    return val/1;
+    return val > 0 ? floor(val) : ceil(val);
 }
 
 int signNonZero(float val){

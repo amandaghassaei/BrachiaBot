@@ -8,7 +8,7 @@
 #define M_PI 3.14159265358979323846
 #define Kt 0.0534// [ Nm/A ]
 
-#define PWM_MAX 0.2
+#define PWM_MAX 0.3
 #define PPR 1024
 
 

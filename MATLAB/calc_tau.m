@@ -14,7 +14,7 @@ function tau = calc_tau(z, p)
     % Forces
     E = energy_brachia_bot(z, p);
     
-    A_hat22 = A(2,2)-A(2,1)*A(1,2)/A(1,1)
+    A_hat22 = A(2,2)-A(2,1)*A(1,2)/A(1,1);
     K = 100;
     D = 10;
     

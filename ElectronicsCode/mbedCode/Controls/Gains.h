@@ -8,8 +8,8 @@ class Gains {
     public:
     
         Gains(){
-            setSwingUpK(10);
-            setSwingUpD(1);
+            setSwingUpK(40);
+            setSwingUpD(10);
             setCurrentP(10);
             setCurrentD(0);
         }

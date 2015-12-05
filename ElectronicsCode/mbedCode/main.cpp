@@ -15,19 +15,19 @@ Ticker controlsInterrupt;
 int main() {
     controls.setPC(comm.getPC());
     controls.setup();
-//    comm.printPosition();
-//    comm.printGains();
+    comm.printPosition();
+    comm.printGains();
 
     controlsInterrupt.attach_us(&controls, &Controls::loop, 1000);
 
     while(1) {
         controls.updateIMUS();
         comm.check();
-        if (serialCounter++>1000000) {
+        if (serialCounter++>100000) {
 //            comm.getPC()->printf("%f\n", controls.getTheta1());
 //            comm.getPC()->printf("%f", controls.motor.getPWM());
             serialCounter = 0;
-//            comm.getPC()->printf("%f\n", controls.motor.getTorque());
+//            comm.printPosition();
         }
     }
 }
@@ -85,6 +85,13 @@ void printPositionWrapper(Arguments * input, Reply * output){
     comm.printPosition();
 };
 RPCFunction PrintPosition(&printPositionWrapper, "PrintPosition");
+
+
+
+
+
+
+nWrapper, "PrintPosition");
 
 
 
