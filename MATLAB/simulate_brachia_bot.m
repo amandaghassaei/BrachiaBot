@@ -4,7 +4,7 @@ function simulate_brachia_bot()
 	addpath([pwd '/Optimization'])
 	addpath([pwd '/Derived'])
 
-    desired_rung = 5;
+    desired_rung = 2;
 
     %fixed params
     m1 = 0.55;
@@ -22,7 +22,7 @@ function simulate_brachia_bot()
     
     % initial conditions
     th1_0 = 0.3;
-    th2_0 = 0;
+    th2_0 = 2*pi/3;
     dth1_0 = 0;
     dth2_0 = 0;
     
@@ -40,7 +40,7 @@ function simulate_brachia_bot()
 
     %compute energy
     E = energy_brachia_bot(sol.y, p);
-%     z_des = final_z(desired_rung, l1, lattice_pitch);
+    z_des = final_z(desired_rung, l1, lattice_pitch);
     
 %     z0_opt = get_opt_z0(E, z_des, sol.y, p);
 %     
@@ -103,8 +103,8 @@ function simulate_brachia_bot()
 
     %animate
     figure(7); clf;
-%     [potential_map, X_contour, Y_contour] = obstacle_potential_map(lattice_pitch);
-%     contour(X_contour, Y_contour, potential_map);
+    [potential_map, X_contour, Y_contour] = obstacle_potential_map(lattice_pitch);
+    contour(X_contour, Y_contour, potential_map);
     animateSol(sol,p);
     
 end
