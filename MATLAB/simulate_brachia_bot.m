@@ -3,6 +3,7 @@ function simulate_brachia_bot()
 	addpath([pwd '/Obstacles'])
 	addpath([pwd '/Optimization'])
 	addpath([pwd '/Derived'])
+    addpath([pwd '/Targeting'])
 
     desired_rung = 2;
 
@@ -26,7 +27,7 @@ function simulate_brachia_bot()
     dth1_0 = 0;
     dth2_0 = 0;
     
-    p = [l1; l2; c1; c2; m1; m2; I1; I2; g; lattice_pitch];% parameters array
+    p = [l1; l2; c1; c2; m1; m2; I1; I2; g; lattice_pitch; desired_rung];% parameters array
     
     %first solve system with just swinging and obstacle avoidance
     tspan = [0 20];
@@ -35,42 +36,8 @@ function simulate_brachia_bot()
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
     sol = ode45(@swinging_dynamics,tspan,z0,opts,p);
     
-    %then find pt of sufficient energy and solve for trajectory to reach
-    %target rung
-
     %compute energy
     E = energy_brachia_bot(sol.y, p);
-    z_des = final_z(desired_rung, l1, lattice_pitch);
-    
-%     z0_opt = get_opt_z0(E, z_des, sol.y, p);
-%     
-%     tf = .5;                                        % simulation final time
-%     ctrl.tf = 0.4;                                  % control time points
-%     ctrl.T = [1.5 1.5 1.5];  
-%     
-%     problem.objective = @(x) objective(x,z0_opt,p);     % create anonymous function that returns objective
-%     problem.nonlcon = @(x) constraints(x,z0_opt,p);     % create anonymous function that returns nonlinear constraints
-%     problem.x0 = [tf ctrl.tf ctrl.T];                   % initial guess for decision variables
-%     problem.lb = [.1 .1 -2*ones(size(ctrl.T))];     % lower bound on decision variables
-%     problem.ub = [1  1   2*ones(size(ctrl.T))];     % upper bound on decision variables
-%     problem.Aineq = []; problem.bineq = [];         % no linear inequality constraints
-%     problem.Aeq = []; problem.beq = [];             % no linear equality constraints
-%     problem.options = optimset('Display','iter');   % set options
-%     problem.solver = 'fmincon';                     % required
-%     x = fmincon(problem);                           % solve nonlinear programming problem
-% 
-%     % Note that once you've solved the optimization problem, you'll need to 
-%     % re-define tf, tfc, and ctrl here to reflect your solution.
-%     tf = x(1);
-%     ctrl.tf = x(2);
-%     ctrl.T = [x(3) x(4) x(5)];
-% 
-%     [t_opt, z_opt, u_opt, indices_opt] = hybrid_simulation(z0_opt,ctrl,p,[0 tf]); % run simulation
-    
-    
-    %combine energy incr and optimization results and plot
-    
-    
     
     figure(1); clf;
     plot(sol.x,E);xlabel('Time (s)'); ylabel('Energy (J)');

@@ -1,7 +1,4 @@
 function tau = calc_tau(z, p)
-        
-    % Get mass matrix
-    A = A_brachia_bot(z,p);
     
     % Get angles
     th1 = z(1);
@@ -14,6 +11,8 @@ function tau = calc_tau(z, p)
     % Forces
     E = energy_brachia_bot(z, p);
     
+    % Get mass matrix
+    A = A_brachia_bot(z,p);
     A_hat = A(2,2)-A(2,1)*A(1,2)/A(1,1);
     
     corr_centrip_comp = corr_brachia_bot(z, p);

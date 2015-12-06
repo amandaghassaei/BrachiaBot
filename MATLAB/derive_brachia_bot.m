@@ -90,6 +90,7 @@ matlabFunction(A,'file',[folder 'A' name],'vars',{z p});
 matlabFunction(b,'file',[folder 'b' name],'vars',{z u p});
 matlabFunction(E,'file',[folder 'energy' name],'vars',{z p});
 matlabFunction(keypoints,'file',[folder 'keypoints' name],'vars',{z p});
+matlabFunction(r_B ,'file', [folder 'motor_pos'],'vars',{z p});
 matlabFunction(r_C ,'file', [folder 'gripper_pos'],'vars',{z p});
 matlabFunction(dr_C ,'file', [folder 'gripper_vel'],'vars',{z p});
 matlabFunction(J ,'file', [folder 'gripper_jacobian'],'vars',{z p});
@@ -98,3 +99,8 @@ matlabFunction(Grav_Joint_Sp ,'file', [folder 'grav' name] ,'vars',{z p});
 matlabFunction(Corr_Joint_Sp ,'file', [folder 'corr' name],'vars',{z p});
 
 matlabFunction(obstacle_potential ,'file', [folder 'obstacle_potential'],'vars',{z p});
+
+
+%intersections
+
+
