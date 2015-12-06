@@ -30,13 +30,16 @@ function tau = calc_tau(z, p)
 %         th2_des = sign(th2)*2*pi/3;
 % %         K = 1000;
 %     else
+    th2_des = calc_theta_desired(z, p);
+    if th2_des == 0
         th2_des = theta_desired(5*pi/6, th1, th2, dth1, dth2);
-%     end
+    end
     
     ddth2 = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
     energyIncr = A_hat*ddth2 + corr_centrip_comp_hat + grav_com_hat;
 
     obstacleAvoidance = 0;%obstacle_avoidance(z, p);
+    target = calc_target_potential_force(z,p);
 
     % Compute virtual foce
 %     J = gripper_jacobian;
@@ -46,7 +49,7 @@ function tau = calc_tau(z, p)
 
     %todo coriolis/cetripedal compensation
 
-    tau = obstacleAvoidance + energyIncr;
+    tau = obstacleAvoidance + energyIncr + target;
 
 end
 

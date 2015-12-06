@@ -13,10 +13,8 @@ function theta_des = calc_theta_desired(z, p)
     end
         
     target_approach_direction = sign(dth1);
-    angle = final_angle(p(11), p(10), p(0));
+    angle = final_angle(z, p(11), p(10), p(1));
     
-    
-
     if (target_approach_direction)
         %moving toward the right
         if th2<angle/2
@@ -26,7 +24,7 @@ function theta_des = calc_theta_desired(z, p)
         
     else
         %moving toward the left
-        if th2>-angle/2
+        if th2>angle/2
             return
         end
         

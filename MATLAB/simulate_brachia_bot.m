@@ -30,7 +30,7 @@ function simulate_brachia_bot()
     p = [l1; l2; c1; c2; m1; m2; I1; I2; g; lattice_pitch; desired_rung];% parameters array
     
     %first solve system with just swinging and obstacle avoidance
-    tspan = [0 20];
+    tspan = [0 5];
     inttol = 1e-2;
     z0 = [th1_0; th2_0; dth1_0; dth2_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);

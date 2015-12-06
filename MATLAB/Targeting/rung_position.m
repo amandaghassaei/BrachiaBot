@@ -5,7 +5,7 @@ function position = rung_position(target_rung, lattice_pitch)
     
     x = mod(target_rung-1, 3)-1;
     y = 1-floor((target_rung-1)/3);
-    position = [lattice_pitch*x; lattice_pitch*y];
+    position = [lattice_pitch*x; lattice_pitch*y; 0];
 
 end
 
