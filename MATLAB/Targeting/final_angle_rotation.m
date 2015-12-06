@@ -6,24 +6,12 @@ function rotation = final_angle_rotation(z, target_rung)
     rotation = 0;
 
     if target_rung == 2
-        if z(3) < 0%approach from right
-            rotation = -pi/2;
-        else
-            rotation = pi/2;
-        end
+        rotation = pi/2;
     elseif target_rung == 8
-        if z(3) < 0%approach from right
-            rotation = pi/2;
-        else
-            rotation = -pi/2;
-        end
-    elseif target_rung == 1
-        rotation = -pi/4;
-    elseif target_rung == 3
+        rotation = -pi/2;
+    elseif target_rung == 1 || target_rung == 3
         rotation = pi/4;
-    elseif target_rung == 7
-        rotation = pi/4;
-    elseif target_rung == 9
+    elseif target_rung == 7 || target_rung == 9
         rotation = -pi/4;
     end
 end
