@@ -27,7 +27,7 @@ function tau = calc_tau(z, p)
     
     z_des = final_z(2, p(1), p(10));
 
-    th2_des = calc_theta_desired(z, p);
+    th2_des = 0;%calc_theta_desired(z, p);
     if th2_des == 0
         th2_des = theta_desired(3*pi/6, th1, th2, dth1, dth2);
     end
@@ -35,7 +35,7 @@ function tau = calc_tau(z, p)
     ddth2 = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
     energyIncr = A_hat*ddth2 + corr_centrip_comp_hat + grav_com_hat;
 
-    obstacleAvoidance = 0;%obstacle_avoidance(z, p);
+    obstacleAvoidance = obstacle_avoidance(z, p);
 %     target = calc_target_potential_force(z,p);
 
     % Compute virtual foce

@@ -5,7 +5,7 @@
 
 function Rungs(three){
 
-    var rungSpacing = 400;
+    var rungSpacing = 350;
     var rungRadius = 20;
 
     var rungsMaterial = new THREE.MeshLambertMaterial({color:"#ff0000"});

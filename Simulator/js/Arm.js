@@ -8,7 +8,7 @@ var armMaterial = new THREE.MeshLambertMaterial({color:"#999999"});
 function Arm(three){
 
     this.object3D = new THREE.Object3D;
-    this.object3D.add(this.buildMesh());
+//    this.object3D.add(this.buildMesh());
 
     three.sceneAdd(this.object3D);
 }

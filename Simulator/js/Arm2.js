@@ -14,3 +14,13 @@ Arm2.prototype.buildMesh = function(){
     mesh.position.set(0,0,-100);
     return mesh;
 };
+
+
+Arm2.prototype.setGeo = function(geo){
+    geo.applyMatrix(new THREE.Matrix4().makeRotationX(Math.PI/2));
+    geo.applyMatrix(new THREE.Matrix4().makeRotationY(Math.PI));
+//    geo.applyMatrix(new THREE.Matrix4().makeTranslation(0,0,-73));
+    var mesh = new THREE.Mesh(geo, armMaterial);
+//    mesh.position.set(0,0,-275);
+    this.object3D.add(mesh);
+};

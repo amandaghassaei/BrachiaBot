@@ -5,32 +5,29 @@ function simulate_brachia_bot()
 	addpath([pwd '/Derived'])
     addpath([pwd '/Targeting'])
 
-    desired_rung = 4;
-
-    %fixed params
-    m1 = 0.55;
-    m2 = m1;
-    l1 = 0.30;%length of links
-    l2 = l1;
-    I1 = 1/3*m1*l1^2;%model as rod rotating around one end
-    I2 = 1/3*m2*l2^2;
-    c1 = 0.5*l1;%location of center of mass along link
-    c2 = 0.5*l2;
-    g = 9.81;
+    desired_rung = 9;
     
-    %lattice params
+    m1 = 0.93159230;
+    m2 = 0.45433433;
+    l1 = 0.275;%length of links
+    l2 = l1;
+    I1 = 0.03736067;
+    I2 = 0.01778165;
+    c1 = l1-0.08567346;%location of center of mass along link
+    c2 = 0.17594269;
+    g = 9.81;
     lattice_pitch  = 0.35;%meters
     
     % initial conditions
     th1_0 = 0.3;
-    th2_0 = 0;
+    th2_0 = 2*pi/3;
     dth1_0 = 0;
     dth2_0 = 0;
     
     p = [l1; l2; c1; c2; m1; m2; I1; I2; g; lattice_pitch; desired_rung];% parameters array
     
     %first solve system with just swinging and obstacle avoidance
-    tspan = [0 8];
+    tspan = [0 20];
     inttol = 1e-2;
     z0 = [th1_0; th2_0; dth1_0; dth2_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);

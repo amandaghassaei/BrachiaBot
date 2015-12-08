@@ -11,14 +11,23 @@ $( document ).ready(function() {
         //animation loop
         if (!arm1 || !arm2) return;
 
-//        arm1.setTheta(arm1.getTheta() + 0.001);
+        arm1.setTheta(arm1.getTheta() + 0.001);
         arm2.setPosition(arm1.getPosition());
-//        arm2.setTheta(arm2.getTheta() - 0.001);
+        arm2.setTheta(arm2.getTheta() - 0.001);
 
     });
 
+    var loader = new THREE.STLLoader();
     var arm1 = new Arm1(threeModel);
-    var arm2 = new Arm1(threeModel);
+    var arm2 = new Arm2(threeModel);
+    loader.load( 'Simulator/assets/stls/arm1.stl', function ( geometry ) {
+        arm1.setGeo(geometry);
+    } );
+    loader.load( 'Simulator/assets/stls/arm2.stl', function ( geometry ) {
+        arm2.setGeo(geometry);
+    } );
+
+
     new Rungs(threeModel);
 
     var serialComm = SerialComm(arm1, arm2, graphData);
