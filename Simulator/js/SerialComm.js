@@ -119,7 +119,7 @@ function SerialComm(arm1, arm2, graphData){
                 if (json.th2 !== null && json.th2 !== undefined) {
                     var theta2 = parseFloat(json.th2);
                     if (!isNaN(theta2)){
-                        arm2.setTheta(theta2);
+                        arm2.setTheta(theta2+ arm1.getTheta());
 //                        graphData.th2.append(new Date().getTime(), theta2);
                     }
                 }

@@ -18,11 +18,11 @@ Arm.prototype.setPosition = function(position){
 };
 
 Arm.prototype.setTheta = function(theta){
-    this.object3D.rotation.set(0, theta, 0);
+    this.object3D.rotation.set(0, -theta, 0);
 };
 
 Arm.prototype.getTheta = function(){
-    return this.object3D.rotation.y;
+    return -this.object3D.rotation.y;
 };
 
 Arm.prototype.getRotation = function(){

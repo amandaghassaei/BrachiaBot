@@ -14,8 +14,7 @@ define(['underscore', 'backbone'], function(_, Backbone){
             dth2: null,
             swingUpK: null,
             swingUpD: null,
-            currentP: null,
-            currentD: null
+            desiredThetaP: null
         },
 
         setData: function(data){

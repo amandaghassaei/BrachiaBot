@@ -23,7 +23,7 @@ define(['jquery', 'underscore', 'backbone', 'text!PositionControlPanelView.html'
 
             this.listenTo(this.model.getMachineState(), "change", this._renderPositionData);
             this.render();
-            this._askForPosition();
+//            this._askForPosition();
         },
 
         _renderPositionData: function(){
@@ -36,7 +36,7 @@ define(['jquery', 'underscore', 'backbone', 'text!PositionControlPanelView.html'
             this.model.send('/PrintPosition/run');
         },
 
-        _askForPosition: function(e){
+        _askForGains: function(e){
             if (e) e.preventDefault();
             this.model.send('/PrintGains/run');
         },

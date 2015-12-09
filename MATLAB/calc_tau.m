@@ -29,13 +29,13 @@ function tau = calc_tau(z, p)
 
     th2_des = 0;%calc_theta_desired(z, p);
     if th2_des == 0
-        th2_des = theta_desired(3*pi/6, th1, th2, dth1, dth2);
+        th2_des = theta_desired(-5*pi/6, 3*pi/6, th1, th2, dth1, dth2);
     end
         
     ddth2 = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
     energyIncr = A_hat*ddth2 + corr_centrip_comp_hat + grav_com_hat;
 
-    obstacleAvoidance = obstacle_avoidance(z, p);
+    obstacleAvoidance = 0;%obstacle_avoidance(z, p);
 %     target = calc_target_potential_force(z,p);
 
     % Compute virtual foce
@@ -47,15 +47,21 @@ function tau = calc_tau(z, p)
 
 end
 
-function theta = theta_desired(range, th1, th2, dth1, dth2)
+function theta = theta_desired(range_min, range_max, th1, th2, dth1, dth2)
 
     num_turns = fix(th1/(2*pi));
     th1_rel = th1-num_turns*2*pi;
 %     if abs(th1_rel) > pi
 %         th1_rel  = sign(th1_rel)*(abs(th1_rel)-pi);
 %     end
+
+    if dth1<0
+        theta = range_min*abs(cos(th1_rel/2));
+    else
+        theta = range_max*abs(cos(th1_rel/2));
+    end
     
-    theta = sign_nonzero(dth1)*(range-abs(th1_rel));%*cos(th1)
+%     theta = sign_nonzero(dth1)*(range*abs(cos(th1_rel/2)));%-abs(th1_rel));%*cos(th1)
         
 %     num_turns = fix(th2/(2*pi));
 %     theta = theta + num_turns*2*pi;%shouldn't need this because theta2
