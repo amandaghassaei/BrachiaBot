@@ -20,11 +20,15 @@ function simulate_brachia_bot()
     
     % initial conditions
     th1_0 = -0.3;
-    th2_0 = -2*pi/3;
+    th2_0 = -2/3*pi;
     dth1_0 = 0;
     dth2_0 = 0;
     
     p = [l1; l2; c1; c2; m1; m2; I1; I2; g; lattice_pitch; desired_rung];% parameters array
+   
+    global is_targeting;
+    is_targeting = 0;
+    
     
     %first solve system with just swinging and obstacle avoidance
     tspan = [0 20];
@@ -56,14 +60,14 @@ function simulate_brachia_bot()
 %     figure(5); clf;
 %     plot(sol.x,dtheta2);xlabel('Time (s)'); ylabel('dTheta 2 (rad/s)');
     
-    sizeSol = size(sol.y);
-    taus = zeros(sizeSol(2), 1);
-    for i=1:sizeSol(2)
-        z = sol.y(:,i);
-        taus(i) = calc_tau(z, p);
-    end
-    figure(6); clf;
-	plot(sol.x,taus);xlabel('Time (s)'); ylabel('Torque');
+%     sizeSol = size(sol.y);
+%     taus = zeros(sizeSol(2), 1);
+%     for i=1:sizeSol(2)
+%         z = sol.y(:,i);
+%         taus(i) = calc_tau(z, p, sol.x(i));
+%     end
+%     figure(6); clf;
+% 	plot(sol.x,taus);xlabel('Time (s)'); ylabel('Torque');
 
     %animate
     figure(7); clf;

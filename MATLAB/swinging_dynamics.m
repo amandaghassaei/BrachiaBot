@@ -3,7 +3,7 @@ function dz = swinging_dynamics(t, z, p)
     % Get mass matrix
     A = A_brachia_bot(z,p);
 
-    tau = calc_tau(z, p);
+    tau = calc_tau(z, p, t);
 
     u = [0; tau];
     

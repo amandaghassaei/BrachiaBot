@@ -1,4 +1,4 @@
-function tau = calc_tau(z, p)
+function tau = calc_tau(z, p, t)
     
     % Get angles
     th1 = z(1);
@@ -25,28 +25,37 @@ function tau = calc_tau(z, p)
     K = 100;
     D = 10;
     
-    z_des = final_z(2, p(1), p(10));
-
-    th2_des = 0;%calc_theta_desired(z, p);
-    if th2_des == 0
-        th2_des = theta_desired(-5*pi/6, 5*pi/6, th1, th2, dth1, dth2);
+%     z_des = final_z(2, p(1), p(10));
+    global is_targeting;
+    if t>1 && (is_targeting || should_use_targeting_controller(z, p))
+        distance = abs(final_angle_th1(z, p(11), p(10), p(1)) - th1);
+        Kamp = 10-9*distance;
+        if Kamp < 1
+            Kamp = 1;
+        end
+        K = Kamp*K;
+        D = Kamp*10;
+        is_targeting = 1;
+        th2_des = calc_theta_targeting_2(z, p);
+    else
+        th2_des = theta_desired(-10*pi/11, 10*pi/11, th1, th2, dth1, dth2);
+%         th2_des = obstacle_th2(z, p, th2_des);
     end
     
-    th2_des = obstacle_th2(z, p, th2_des);
+    
         
-    A_hat = 1;
+%     A_hat = 1;
     ddth2 = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
-    energyIncr = A_hat*ddth2 + corr_centrip_comp_hat + grav_com_hat;
+    tau = A_hat*ddth2 + corr_centrip_comp_hat + grav_com_hat;
 
-    obstacleAvoidance = 0;%obstacle_avoidance(z, p);
-%     target = calc_target_potential_force(z,p);
+%     obstacleAvoidance = 0;%obstacle_avoidance(z, p);
 
     % Compute virtual foce
 %     J = gripper_jacobian;
 %     lambda = A*J_inv;
 
     
-    tau = obstacleAvoidance + energyIncr;
+%     tau = obstacleAvoidance + energyIncr;
 
 end
 

@@ -1,4 +1,4 @@
-function theta_des = calc_theta_desired(z, p)
+function theta_des = calc_theta_targeting(z, p)
 
     theta_des = 0;
 
