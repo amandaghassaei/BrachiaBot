@@ -5,7 +5,7 @@ function simulate_brachia_bot()
 	addpath([pwd '/Derived'])
     addpath([pwd '/Targeting'])
 
-    desired_rung = 1;
+    desired_rung = 6;
     
     m1 = 0.93159230;
     m2 = 0.45433433;
@@ -20,7 +20,7 @@ function simulate_brachia_bot()
     
     % initial conditions
     th1_0 = -0.3;
-    th2_0 = -2/3*pi;
+    th2_0 = 2/3*pi;
     dth1_0 = 0;
     dth2_0 = 0;
     

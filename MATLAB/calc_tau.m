@@ -39,7 +39,7 @@ function tau = calc_tau(z, p, t)
         th2_des = calc_theta_targeting_2(z, p);
     else
         th2_des = theta_desired(-10*pi/11, 10*pi/11, th1, th2, dth1, dth2);
-%         th2_des = obstacle_th2(z, p, th2_des);
+        th2_des = obstacle_th2(z, p, th2_des);
     end
     
     
