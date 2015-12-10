@@ -35,6 +35,10 @@ function tau = calc_tau(z, p, t)
         end
         K = Kamp*K;
         D = Kamp*10;
+        if (is_targeting == 0)
+            a = t
+            dth1
+        end
         is_targeting = 1;
         th2_des = calc_theta_targeting_2(z, p);
     else
