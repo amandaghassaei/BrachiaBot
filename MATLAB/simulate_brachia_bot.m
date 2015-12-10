@@ -19,8 +19,8 @@ function simulate_brachia_bot()
     lattice_pitch  = 0.35;%meters
     
     % initial conditions
-    th1_0 = 0.3;
-    th2_0 = 2*pi/3;
+    th1_0 = -0.3;
+    th2_0 = -2*pi/3;
     dth1_0 = 0;
     dth2_0 = 0;
     
