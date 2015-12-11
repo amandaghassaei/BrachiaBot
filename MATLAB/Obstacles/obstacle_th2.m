@@ -16,7 +16,7 @@ function th_des = obstacle_th2(z, p, th_des_input)
     end
     
     th2_min_phase = direction*th2_min_min;
-    th2_min = th2_min_min+2*th2_min_amp*cos(4*(th1+th2_min_phase));
+    th2_min = th2_min_min+th2_min_amp*cos(4*(th1+th2_min_phase));
 
     th_des = th_des_input;
     

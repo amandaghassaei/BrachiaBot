@@ -27,30 +27,36 @@ function tau = calc_tau(z, p, t)
     
 %     z_des = final_z(2, p(1), p(10));
     global is_targeting;
-    if t>1 && (is_targeting || should_use_targeting_controller(z, p))
-        distance = abs(final_angle_th1(z, p(11), p(10), p(1)) - th1);
-        Kamp = 10-9*distance;
-        if Kamp < 1
-            Kamp = 1;
-        end
-        K = Kamp*K;
-        D = Kamp*10;
+    force = 0;
+    if is_targeting && should_override_targeting_controller(z, p)
+        is_targeting = false;
+%         t
+    elseif t>1 && (is_targeting || should_use_targeting_controller(z, p))
+%         distance = abs(final_angle_th1(z, p(11), p(10), p(1)) - th1);
+%         Kamp = 10-9*distance;
+%         if Kamp < 1
+%             Kamp = 1;
+%         end
+%         K = Kamp*K;
+%         D = Kamp*10;
         if (is_targeting == 0)
-            a = t
-            dth1
+%             a = t
+%             dth1
         end
+        force = calc_theta_targeting_2(z, p, is_targeting == 0);
         is_targeting = 1;
-        th2_des = calc_theta_targeting_2(z, p);
+        
     else
-        th2_des = theta_desired(-10*pi/11, 10*pi/11, th1, th2, dth1, dth2);
-        th2_des = obstacle_th2(z, p, th2_des);
+        th2_des = theta_desired(-2.5, 2.5, th1, th2, dth1, dth2);%143 degrees soft stop
+%         th2_des = obstacle_th2(z, p, th2_des);
+        force = K*(th2_des - th2) - D*dth2;
     end
     
     
         
-%     A_hat = 1;
-    ddth2 = K*(th2_des - th2) - D*dth2;% + k3*u_hat;
-    tau = A_hat*ddth2 + corr_centrip_comp_hat + grav_com_hat;
+    A_hat = 0.02;
+    
+    tau = A_hat*force + corr_centrip_comp_hat + grav_com_hat;
 
 %     obstacleAvoidance = 0;%obstacle_avoidance(z, p);
 

@@ -5,7 +5,7 @@ function simulate_brachia_bot()
 	addpath([pwd '/Derived'])
     addpath([pwd '/Targeting'])
 
-    desired_rung = 2;
+    desired_rung = 4;
     
     m1 = 0.93159230;
     m2 = 0.45433433;
@@ -20,7 +20,7 @@ function simulate_brachia_bot()
     
     % initial conditions
     th1_0 = 0.3;
-    th2_0 = -2/3*pi;
+    th2_0 = 0;
     dth1_0 = 0;
     dth2_0 = 0;
     
@@ -32,7 +32,7 @@ function simulate_brachia_bot()
     
     %first solve system with just swinging and obstacle avoidance
     tspan = [0 20];
-    inttol = 1e-4;
+    inttol = 1e-3;
     z0 = [th1_0; th2_0; dth1_0; dth2_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);
     sol = ode45(@swinging_dynamics,tspan,z0,opts,p);
