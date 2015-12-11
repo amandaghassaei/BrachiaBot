@@ -56,7 +56,7 @@ class MyMPU6050 {
             if ((mpuIntStatus & 0x10) || fifoCount == 1024) {
                 // reset so we can continue cleanly
                 mpu.resetFIFO();
-                _pc->printf("FIFO overflow!\n");
+//                _pc->printf("FIFO overflow!\n");
         
             // otherwise, check for DMP data ready interrupt (this should happen frequently)
             } else if (mpuIntStatus & 0x02) {
@@ -81,7 +81,7 @@ class MyMPU6050 {
                 else newTheta = M_PI-ypr[2];
                 
                 mpu.dmpGetGyro(gyroData, fifoBuffer);
-                float newDTheta = gyroData[2]/180.0*M_PI;
+                float newDTheta = -gyroData[2]/180.0*M_PI;
                 
                 if (!thetaInitFlag && abs(newTheta-theta)>0.3) {
 //                    _pc->printf("IMU interrupt clash\n");

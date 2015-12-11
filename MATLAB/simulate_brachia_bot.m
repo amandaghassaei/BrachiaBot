@@ -31,7 +31,7 @@ function simulate_brachia_bot()
     
     
     %first solve system with just swinging and obstacle avoidance
-    tspan = [0 20];
+    tspan = [0 40];
     inttol = 1e-3;
     z0 = [th1_0; th2_0; dth1_0; dth2_0];
     opts = odeset('AbsTol', inttol, 'RelTol', inttol);

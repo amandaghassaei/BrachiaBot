@@ -8,10 +8,11 @@ class Gains {
     public:
     
         Gains(){
-            setSwingUpK(40);
-            setSwingUpD(10);
-            setCurrentP(10);
-            setCurrentD(0);
+            setSwingUpK(30);
+            setSwingUpD(4);
+            setDesiredThetaP(0.01);
+            setTargetingK(1);
+            setTargetingD(0);
         }
         
         void setPC(Serial *pc){
@@ -24,11 +25,14 @@ class Gains {
         void setSwingUpD(float d){
             _swingUpD = d;
         };
-        void setCurrentP(float p){
-            _currentP = p;
+        void setDesiredThetaP(float p){
+            _desiredThetaP = p;
         };
-        void setCurrentD(float d){
-            _currentD = d;
+        void setTargetingK(float k){
+            _targetingK = k;
+        };
+        void setTargetingD(float d){
+            _targetingD = d;
         };
         
         float getSwingUpK(){
@@ -37,11 +41,14 @@ class Gains {
         float getSwingUpD(){
             return _swingUpD;
         };
-        float getCurrentP(){
-            return _currentP;
+        float getDesiredThetaP(){
+            return _desiredThetaP;
         };
-        float getCurrentD(){
-            return _currentD;
+        float getTargetingK(){
+            return _targetingK;
+        };
+        float getTargetingD(){
+            return _targetingD;
         };
     
     private:
@@ -50,8 +57,9 @@ class Gains {
     
         float _swingUpK;
         float _swingUpD;
-        float _currentP;
-        float _currentD;
+        float _desiredThetaP;
+        float _targetingK;
+        float _targetingD;
     
 };
 

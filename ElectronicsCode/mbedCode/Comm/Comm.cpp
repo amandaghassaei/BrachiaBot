@@ -3,7 +3,7 @@
     
 Comm::Comm(CommDelegate *controls):_pc(USBTX, USBRX), _json(&_pc)
 {
-    _pc.baud(9600);
+    _pc.baud(115200);
     _controls = controls;
 }
 
@@ -56,26 +56,37 @@ void Comm::setSwingUpD(Arguments* input, Reply* output){
     _controls->setSwingUpD(d);
     printGains();
 }
-void Comm::setCurrentP(Arguments* input, Reply* output){
+
+
+void Comm::setTargetingK(Arguments* input, Reply* output){
     if (input->argc < 1){
         throwNotEnoughArgsError();
         return;
     }
-    float p = input->getArg<float>(); 
-    _controls->setCurrentP(p);
+    float k = input->getArg<float>(); 
+    _controls->setTargetingK(k);
     printGains();
 }
-
-void Comm::setCurrentD(Arguments* input, Reply* output){
+void Comm::setTargetingD(Arguments* input, Reply* output){
     if (input->argc < 1){
         throwNotEnoughArgsError();
         return;
     }
     float d = input->getArg<float>(); 
-    _controls->setCurrentD(d);
+    _controls->setTargetingD(d);
     printGains();
 }
 
+
+void Comm::setDesiredThetaP(Arguments* input, Reply* output){
+    if (input->argc < 1){
+        throwNotEnoughArgsError();
+        return;
+    }
+    float p = input->getArg<float>(); 
+    _controls->setDesiredThetaP(p);
+    printGains();
+}
 
 
 void Comm::printGains(){
@@ -84,9 +95,11 @@ void Comm::printGains(){
     _json.sepItem();
     _json.print("swingUpD", _controls->getSwingUpD());
     _json.sepItem();
-    _json.print("currentP", _controls->getCurrentP());
+    _json.print("desiredThetaP", _controls->getDesiredThetaP());
     _json.sepItem();
-    _json.print("currentD", _controls->getCurrentD());
+    _json.print("targetingK", _controls->getTargetingK());
+    _json.sepItem();
+    _json.print("targetingD", _controls->getTargetingD());
     _json.close();
 }
 
@@ -106,14 +119,14 @@ void Comm::printTarget(){
     _json.close();
 }
 
-void Comm::setTorque(Arguments * input, Reply * output){
+void Comm::setTheta(Arguments * input, Reply * output){
     if (input->argc < 1){
         throwNotEnoughArgsError();
         return;
     }
-    float torque = input->getArg<float>(); 
-    _pc.printf("%f\n", torque);
-    _controls->setTorque(torque);
+    float theta = input->getArg<float>(); 
+    _pc.printf("%f\n", theta);
+    _controls->setTheta(theta);
 }
 
 void Comm::printPosition(){
@@ -125,6 +138,14 @@ void Comm::printPosition(){
     _json.print("th2", _controls->getTheta2());
 //    _json.sepItem();
 //    _json.print("dth2", _controls->getDTheta2());
+    _json.close();
+}
+
+void Comm::printVelocity(){
+        _json.open();
+    _json.print("dth1", _controls->getDTheta1());
+    _json.sepItem();
+    _json.print("dth2", _controls->getDTheta2());
     _json.close();
 }
 

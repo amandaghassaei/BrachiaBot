@@ -16,19 +16,21 @@ class CommDelegate//parent class
         //gains
         void virtual setSwingUpK(float k){};
         void virtual setSwingUpD(float d){};
-        void virtual setCurrentP(float p){};
-        void virtual setCurrentD(float d){};
+        void virtual setDesiredThetaP(float p){};
+        void virtual setTargetingK(float k){};
+        void virtual setTargetingD(float d){};
         float virtual getSwingUpK(){return 0;};
         float virtual getSwingUpD(){return 0;};
-        float virtual getCurrentP(){return 0;};
-        float virtual getCurrentD(){return 0;};
+        float virtual getDesiredThetaP(){return 0;};
+        float virtual getTargetingK(){return 0;};
+        float virtual getTargetingD(){return 0;};
         
         //target
         void virtual setTargetPosition(int position){};
         int virtual getTargetPosition(){return 0;};
         
         //motor
-        void virtual setTorque(float torque){};
+        void virtual setTheta(float theta){};
       
     protected:
     

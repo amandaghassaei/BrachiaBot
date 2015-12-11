@@ -2,54 +2,84 @@
 #include <math.h>
 # define M_PI           3.14159265358979323846
 
-float calcTau(volatile float z[4], float p[10], Gains *gains, Serial *pc){
-            
-    float A[2][2];
-    getMassMatrix(A, z, p);
+float calcTau(volatile float z[4], float p[10], Gains *gains, Target *target, Serial *pc){
     
     float th1 = z[0];
     float th2 = z[1];
     float dth1 = z[2];
     float dth2 = z[3];
     
-    float E = getEnergy(z, p);
+    float A[2][2];
+    getMassMatrix(A, z, p);
+    float AHat = A[1][1]-A[1][0]*A[0][1]/A[0][0];
     
-    float A_hat22 = A[1][1]-A[1][0]*A[0][1]/A[0][0];
+    float corrCentripComp[2];
+    getCoriolisCentrip(corrCentripComp, z, p);
+    float corrCentripCompHat = corrCentripComp[1]-A[1][0]*corrCentripComp[0]/A[0][0];
+    
+    float gravityComp[2];
+    getGravity(gravityComp, z, p);
+    float gravityCompHat = gravityComp[1]-A[1][0]*gravityComp[0]/A[0][0];
+    
     float K = gains->getSwingUpK();
     float D = gains->getSwingUpD();
     
-    float th2Des = thetaDesired(3*M_PI/6.0, th1, th2, dth1, dth2);
-    
-    float v = K*(th2Des - th2) - D*dth2;// + k3*u_hat;
-    float energyIncr = A_hat22*v;
+    float force = 0;
+   // if (target->getTargetingStarted() || target->shouldSwitchToTargetingController(z, p)) {
+//        target->setTargetingStarted(true);
+//        float th2Des = target->getFinalTh2(z);
+//        force = K*(th2Des - th2) - D*dth2;
+////        force = target->calcTargetingForce(z, p, K, D);
+//    } else {
+//        float softLimit = 1.5;//2.5;//143 degrees
+//        float th2Des = thetaDesiredForSwingUp(-softLimit, softLimit, z);
+//        th2Des = obstacleAvoidance(z, p, th2Des);
+//        float P = overallGainForSwingUp(z, th2Des, gains);
+//        force = P*(K*(th2Des - th2) - D*dth2);//AHat*
+//    }
 
-    float obstacleAvoidance = 0;//%obstacle_avoidance(z, p);
-
-    //Compute virtual foce
-//%     J = gripper_jacobian;
-//%     lambda = A*J_inv;
-
-    float gravityComp = 0;//getGravity(z, p);
-
-    //todo coriolis/cetripedal compensation
-    float corCentripComp = 0;//getCoriolis(z, p);// - A_hat22*gripper_jacobian(z,p)*dth2;
-
-    return obstacleAvoidance + energyIncr + gravityComp + corCentripComp;
+    return force + gravityCompHat;//corrCentripCompHat
 }
 
-float thetaDesired(float range, float th1, float th2, float dth1, float dth2){
+float obstacleAvoidance(volatile float z[4], float p[10], float theta){
     
-    int numTurns = fix(th1/(2*M_PI));
-    float th1Rel = th1-numTurns*2*M_PI;
+    float armLength = p[0];
+    float latticePitch = p[9];
     
-    return signNonZero(dth1)*(range-abs(th1Rel));//*cos(th1)
+    float safeRad = 0.07;
+    float th2MinMin = M_PI-2.0*asin((latticePitch-safeRad)/(2.0*armLength));
+    float th2MinMax = M_PI-2.0*asin((latticePitch*sqrt(2.0)-safeRad)/(2.0*armLength));
+    
+    float th2MinAvg = (th2MinMin+th2MinMax)/2.0;
+    float th2MinAmp = (th2MinMin-th2MinAvg)/2.0;
+    
+    float th1 = z[0];
+    float th2 = z[1];
+    
+    float direction = 1;
+    if (th2<0) direction = -1;
+    
+    float th2MinPhase = direction*th2MinMin;
+    float th2Min = th2MinMin+th2MinAmp*cos(4.0*(th1+th2MinPhase));
+    
+    if (direction*theta < th2Min) return direction*th2Min;
+    return theta;
 }
 
-int fix(float val){//round toward zero
-    return val > 0 ? floor(val) : ceil(val);
+float thetaDesiredForSwingUp(float rangeMin, float rangeMax, volatile float z[4]){
+    
+    float th1 = z[0];
+    float dth1 = z[2];
+    float th1Rel = boundTheta(th1);
+    
+    if (dth1<0) return rangeMin*abs(cos(th1Rel/2.0));//-abs(th1Rel));//*cos(th1)
+    return rangeMax*abs(cos(th1Rel/2.0));
 }
 
-int signNonZero(float val){
-    if (val < 0) return -1;
-    return 1;
+
+float overallGainForSwingUp(volatile float z[4], float th2Des, Gains *gains){
+    float th2 = z[1];
+    float dth1 = z[2];
+    if ((dth1<0 && th2<th2Des) || (dth1>0 && th2>th2Des)) return 1.0;
+    return gains->getDesiredThetaP();
 }

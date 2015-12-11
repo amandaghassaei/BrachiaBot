@@ -8,7 +8,7 @@
 #define M_PI 3.14159265358979323846
 #define Kt 0.0534// [ Nm/A ]
 
-#define PWM_MAX 0.3
+#define PWM_MAX 0.4
 #define PPR 1024
 
 
@@ -18,8 +18,9 @@ class Motor {
     
         Motor(): motorEN(p25), motorPWM(p26), motorCurrent(p20), encoder(QEI_DIRINV_NONE, QEI_SIGNALMODE_QUAD, QEI_CAPMODE_4X, QEI_INVINX_NONE)
         {
-            _maxCurrent = 10;
-            _pwmSlope = (0.9 - 0.1) / (_maxCurrent + _maxCurrent);   // slope for desired current to PWM
+            _gearRatio = 9.629;
+            _maxCurrent = 15.0;
+            _pwmSlope = -(0.9 - 0.1) / (_maxCurrent + _maxCurrent);   // slope for desired current to PWM
             
             motorPWM.period_us(200);     // set motor PWM 5kHz (this is max val)
             motorEN.write(0);            // turn off motor driver (high active)
@@ -29,11 +30,15 @@ class Motor {
             motorEnable();
         };
         
+        void setGearRatio(float gearRatio){
+            _gearRatio = gearRatio;
+        }
+        
         void setupEncoder()
         {   
             encoder.SetDigiFilter(480UL);
             encoder.SetMaxPosition(0xFFFFFFFF);
-            encoder.SetVelocityTimerReload_us(1000);
+            encoder.SetVelocityTimerReload(1000000);
         } 
         
         void setPC(Serial *pc){
@@ -42,14 +47,14 @@ class Motor {
         
         float getTheta(){
             int32_t counts = encoder.GetPosition();    
-            float angle = (float)counts / (4*PPR) * 2 * M_PI;
+            float angle = (float)counts / (4.0*PPR) * 2.0 * M_PI / _gearRatio;// - 2.583;
             return angle;
         }
         
         float getDTheta(){
-            int32_t countVel = encoder.CalculateRPM( encoder.GetVelocityCap(), 4*PPR );
-            float angularVel = countVel * 2 * M_PI / 60;
-            if (encoder.Direction()) angularVel *= -1;
+            int32_t countVel = encoder.CalculateRPM( encoder.GetVelocityCap(), 4.0*PPR );
+            float angularVel = countVel * 2.0 * M_PI / 60.0 / _gearRatio;
+            if (encoder.Direction()) angularVel *= -1.0;
             return angularVel; 
         }
         
@@ -57,7 +62,7 @@ class Motor {
             // Desired torque should be signed. 
             // There is no direction pin on this controller, instead,
             // current is defined by a PWM % centered at 0.5, 0.1 is full reverse, 0.9 is full foward
-            float desCurrent = (desTorque / Kt);
+            float desCurrent = (desTorque*1.04/_gearRatio)/Kt;//104% bump to make up for gear efficiency
             float pwm = _pwmSlope * desCurrent + 0.5f;    // corrected pwm range
            
             // check bounds on current output
@@ -71,7 +76,7 @@ class Motor {
         }
         
         float getTorque(){
-            return Kt * motorCurrent.read()*10;
+            return Kt * motorCurrent.read()*10.0 * _gearRatio;//10 translates V to pwm max
         }
         
         float getPWM(){
@@ -86,6 +91,8 @@ class Motor {
     
         float _maxCurrent;
         float _pwmSlope;
+        
+        float _gearRatio;
         
         float _pwm;
         

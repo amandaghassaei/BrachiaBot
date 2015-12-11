@@ -6,7 +6,7 @@
 function Rungs(three){
 
     var rungSpacing = 350;
-    var rungRadius = 20;
+    var rungRadius = 11;
 
     var rungsMaterial = new THREE.MeshLambertMaterial({color:"#ff0000"});
     for (var i=-1;i<2;i++){
@@ -18,10 +18,8 @@ function Rungs(three){
         }
     }
 
-
-
 }
 
 Rungs.prototype.buildMesh = function(material){
-    return new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 50), material);
+    return new THREE.Mesh(new THREE.CylinderGeometry(1, 1, 50, 30), material);
 };

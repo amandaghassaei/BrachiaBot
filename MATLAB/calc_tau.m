@@ -48,7 +48,8 @@ function tau = calc_tau(z, p, t)
         
     else
         th2_des = theta_desired(-2.5, 2.5, th1, th2, dth1, dth2);%143 degrees soft stop
-%         th2_des = obstacle_th2(z, p, th2_des);
+        th2_des = obstacle_th2(z, p, th2_des);
+        [K, D] = calculate_swing_up_gains(z, p, th2_des);
         force = K*(th2_des - th2) - D*dth2;
     end
     
@@ -67,6 +68,24 @@ function tau = calc_tau(z, p, t)
     
 %     tau = obstacleAvoidance + energyIncr;
 
+end
+
+function [K, D] = calculate_swing_up_gains(z, p, th_des)
+    
+    K = 100;
+    D = 10;
+
+    th1 = z(1);
+    th2 = z(2);
+    
+    % Get velocities
+    dth1 = z(3);
+    dth2 = z(4);
+    
+    if (dth1<0 && th2<th_des) || (dth1>0 && th2>th_des)
+        K = 1000;
+        D = 100;
+    end
 end
 
 function theta = theta_desired(range_min, range_max, th1, th2, dth1, dth2)

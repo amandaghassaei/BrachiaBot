@@ -20,14 +20,14 @@ class Controls: public CommDelegate{
         void setup(){
             setInverted(false);
             
-            float m1 = 0.55;
-            float m2 = m1;
-            float l1 = 0.30;//length of links
+            float m1 = 0.93159230;
+            float m2 = 0.45433433;
+            float l1 = 0.275;//length of links
             float l2 = l1;
-            float I1 = 1/3.0*m1*l1*l1;//model as rod rotating around one end
-            float I2 = 1/3.0*m2*l2*l2;
-            float c1 = 0.5*l1;//location of center of mass along link
-            float c2 = 0.5*l2;
+            float I1 = 0.03736067;
+            float I2 = 0.01778165;
+            float c1 = l1-0.08567346;//location of center of mass along link
+            float c2 = 0.17594269;
             float g = 9.81;
             float lattice_pitch  = 0.35;
             _parameters[0] = l1;
@@ -41,8 +41,9 @@ class Controls: public CommDelegate{
             _parameters[8] =  g;
             _parameters[9] = lattice_pitch;
             
-            _lastTorque = motor.getTorque();
-            _manualTau = 0;
+            _manualTheta = 0;
+            
+            setTargetPosition(6);//only 4 and 6 for now
         }
         
         void setInverted(bool inverted){
@@ -50,9 +51,11 @@ class Controls: public CommDelegate{
             if (!_inverted) {
                 myMPU6050_2.disable();
                 myMPU6050_1.enable();
+//                motor.setGearRatio(10.164);
             } else {
                 myMPU6050_1.disable();
                 myMPU6050_2.enable();
+//                motor.setGearRatio(11.164);
             }
         }
         
@@ -72,11 +75,8 @@ class Controls: public CommDelegate{
         void setSwingUpD(float d){
             gains.setSwingUpD(d);
         };
-        void setCurrentP(float p){
-            gains.setCurrentP(p);
-        };
-        void setCurrentD(float d){
-            gains.setCurrentD(d);
+        void setDesiredThetaP(float p){
+            gains.setDesiredThetaP(p);
         };
         float getSwingUpK(){
             return gains.getSwingUpK();
@@ -84,27 +84,37 @@ class Controls: public CommDelegate{
         float getSwingUpD(){
             return gains.getSwingUpD();
         };
-        float getCurrentP(){
-            return gains.getCurrentP();
-        };
-        float getCurrentD(){
-            return gains.getCurrentD();
+        float getDesiredThetaP(){
+            return gains.getDesiredThetaP();
         };
         
         Target target;
         void setTargetPosition(int position){
-            target.setPosition(position);
+            target.setPosition(position, _parameters);
         };
         int getTargetPosition(){
             return target.getPosition();
         };
         
-        Motor motor;
-        void setTorque(float torque){
-            _manualTau = torque;
+        void setTargetingK(float k){
+            gains.setTargetingK(k);
+        };
+        void setTargetingD(float d){
+            gains.setTargetingD(d);
+        };
+        float getTargetingK(){
+            return gains.getTargetingK();
+        };
+        float getTargetingD(){
+            return gains.getTargetingD();
         };
         
-        float _manualTau;
+        Motor motor;
+        void setTheta(float theta){
+            _manualTheta = theta;
+        };
+        
+        float _manualTheta;
     
         //imu
         MyMPU6050 myMPU6050_1;
@@ -116,28 +126,27 @@ class Controls: public CommDelegate{
     
         void loop(){
 
-//            getActiveIMU().disableInterrupt();
-            
+            getActiveIMU()->disableInterrupt();
             updateThetas();
-            
-            float tau = calcTau(_z, _parameters, &gains, _pc);
-//            float tau = getTheta1();
-            
+            float tau = calcTau(_z, _parameters, &gains, &target, _pc);
+
+//            float K = gains.getSwingUpK();
+//            float D = gains.getSwingUpD();
+//            
+//            float th1 = _z[0];
+//            float th2 = _z[1];
+//            float dth1 = _z[2];
+//            float dth2 = _z[3];
+//            float tau = (K*(_manualTheta - th2) - D*dth2);
+
             motor.setTorque(tau);
             
-//            getActiveIMU().enableInterrupt();
+            getActiveIMU()->enableInterrupt();
         }
         
         MyMPU6050* getActiveIMU(){
             if (_inverted) return &myMPU6050_2;
             return &myMPU6050_1;
-        }
-        
-        float pdTorque(float desiredTorque, float deltaT){
-            float torque = motor.getTorque();
-            float newTorque = gains.getCurrentP()*(desiredTorque-torque) + gains.getCurrentD()*(torque-_lastTorque)/deltaT;
-            _lastTorque = torque;//update _lastTorque
-            return newTorque;
         }
         
         float getTheta1(){
@@ -161,9 +170,7 @@ class Controls: public CommDelegate{
     
         float _parameters[10];
         volatile float _z[4];//theta1, theta2, dtheta2, dtheta2
-        
-        float _lastTorque;
-        
+                
         void updateThetas(){
             _z[0] = _getTheta1();
             _z[2] = _getDTheta1();
