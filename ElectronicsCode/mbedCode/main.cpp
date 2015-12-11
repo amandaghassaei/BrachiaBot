@@ -75,6 +75,10 @@ void setDesiredThetaPWrapper(Arguments * input, Reply * output){
     comm.setDesiredThetaP(input, output);
 };
 RPCFunction SetDesiredThetaP(&setDesiredThetaPWrapper, "SetDesiredThetaP");
+void setSoftLimitsPWrapper(Arguments * input, Reply * output){
+    comm.setSoftLimitsP(input, output);
+};
+RPCFunction SetSoftLimitsP(&setSoftLimitsPWrapper, "SetSoftLimitsP");
 
 
 void setTargetWrapper(Arguments * input, Reply * output){

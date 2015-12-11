@@ -11,6 +11,7 @@ class Gains {
             setSwingUpK(30);
             setSwingUpD(4);
             setDesiredThetaP(0.01);
+            setSoftLimitsP(1);
             setTargetingK(1);
             setTargetingD(0);
         }
@@ -28,6 +29,9 @@ class Gains {
         void setDesiredThetaP(float p){
             _desiredThetaP = p;
         };
+        void setSoftLimitsP(float p){
+            _softLimitsP = p;
+        };
         void setTargetingK(float k){
             _targetingK = k;
         };
@@ -44,6 +48,9 @@ class Gains {
         float getDesiredThetaP(){
             return _desiredThetaP;
         };
+        float getSoftLimitsP(){
+            return _softLimitsP;
+        };
         float getTargetingK(){
             return _targetingK;
         };
@@ -58,6 +65,7 @@ class Gains {
         float _swingUpK;
         float _swingUpD;
         float _desiredThetaP;
+        float _softLimitsP;
         float _targetingK;
         float _targetingD;
     

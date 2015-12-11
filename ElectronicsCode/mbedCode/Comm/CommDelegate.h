@@ -17,11 +17,13 @@ class CommDelegate//parent class
         void virtual setSwingUpK(float k){};
         void virtual setSwingUpD(float d){};
         void virtual setDesiredThetaP(float p){};
+        void virtual setSoftLimitsP(float p){};
         void virtual setTargetingK(float k){};
         void virtual setTargetingD(float d){};
         float virtual getSwingUpK(){return 0;};
         float virtual getSwingUpD(){return 0;};
         float virtual getDesiredThetaP(){return 0;};
+        float virtual getSoftLimitsP(){return 0;};
         float virtual getTargetingK(){return 0;};
         float virtual getTargetingD(){return 0;};
         

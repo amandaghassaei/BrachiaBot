@@ -88,6 +88,17 @@ void Comm::setDesiredThetaP(Arguments* input, Reply* output){
     printGains();
 }
 
+void Comm::setSoftLimitsP(Arguments* input, Reply* output){
+    if (input->argc < 1){
+        throwNotEnoughArgsError();
+        return;
+    }
+    float p = input->getArg<float>(); 
+    _controls->setSoftLimitsP(p);
+    printGains();
+}
+
+
 
 void Comm::printGains(){
     _json.open();
@@ -96,6 +107,8 @@ void Comm::printGains(){
     _json.print("swingUpD", _controls->getSwingUpD());
     _json.sepItem();
     _json.print("desiredThetaP", _controls->getDesiredThetaP());
+    _json.sepItem();
+    _json.print("softLimitsP", _controls->getSoftLimitsP());
     _json.sepItem();
     _json.print("targetingK", _controls->getTargetingK());
     _json.sepItem();
@@ -142,7 +155,7 @@ void Comm::printPosition(){
 }
 
 void Comm::printVelocity(){
-        _json.open();
+    _json.open();
     _json.print("dth1", _controls->getDTheta1());
     _json.sepItem();
     _json.print("dth2", _controls->getDTheta2());

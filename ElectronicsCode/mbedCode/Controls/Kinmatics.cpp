@@ -112,11 +112,11 @@ void getCoriolisCentrip(float output[2], volatile float z[4], float p[10]){
     output[1] = c2*dth1*dth1*l1*m2*t2;
 }
 
-float boundTheta(float theta){
-    int numTurns = fix(theta/(2*M_PI));
-    return theta-numTurns*2*M_PI;
-}
+//float boundTheta(float theta){
+//    int numTurns = fix(theta/(2*M_PI));
+//    return theta-numTurns*2*M_PI;
+//}
 
-int fix(float val){//round toward zero
-    return val > 0 ? floor(val) : ceil(val);
-}
+//int fix(float val){//round toward zero
+//    return val > 0 ? floor(val) : ceil(val);
+//}

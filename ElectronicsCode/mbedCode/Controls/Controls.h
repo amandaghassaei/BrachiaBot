@@ -20,6 +20,9 @@ class Controls: public CommDelegate{
         void setup(){
             setInverted(false);
             
+            _softLimit = 2.35;
+            _lastTh2Desired = _softLimit;
+            
             float m1 = 0.93159230;
             float m2 = 0.45433433;
             float l1 = 0.275;//length of links
@@ -78,6 +81,9 @@ class Controls: public CommDelegate{
         void setDesiredThetaP(float p){
             gains.setDesiredThetaP(p);
         };
+        void setSoftLimitsP(float p){
+            gains.setSoftLimitsP(p);
+        };
         float getSwingUpK(){
             return gains.getSwingUpK();
         };
@@ -86,6 +92,9 @@ class Controls: public CommDelegate{
         };
         float getDesiredThetaP(){
             return gains.getDesiredThetaP();
+        };
+        float getSoftLimitsP(){
+            return gains.getSoftLimitsP();
         };
         
         Target target;
@@ -128,7 +137,10 @@ class Controls: public CommDelegate{
 
             getActiveIMU()->disableInterrupt();
             updateThetas();
-            float tau = calcTau(_z, _parameters, &gains, &target, _pc);
+            
+            float output[2];
+//            output[1] = _lastTh2Desired;
+            float tau = calcTau(output, _z, _parameters, &gains, &target, _pc);
 
 //            float K = gains.getSwingUpK();
 //            float D = gains.getSwingUpD();
@@ -138,7 +150,8 @@ class Controls: public CommDelegate{
 //            float dth1 = _z[2];
 //            float dth2 = _z[3];
 //            float tau = (K*(_manualTheta - th2) - D*dth2);
-
+//            float tau = output[0];
+//            _lastTh2Desired = output[1];
             motor.setTorque(tau);
             
             getActiveIMU()->enableInterrupt();
@@ -170,6 +183,9 @@ class Controls: public CommDelegate{
     
         float _parameters[10];
         volatile float _z[4];//theta1, theta2, dtheta2, dtheta2
+        
+        float _lastTh2Desired;
+        float _softLimit;
                 
         void updateThetas(){
             _z[0] = _getTheta1();

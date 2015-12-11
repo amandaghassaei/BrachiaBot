@@ -22,6 +22,7 @@ class Comm{
         void setSwingUpK(Arguments* input, Reply* output);
         void setSwingUpD(Arguments* input, Reply* output);
         void setDesiredThetaP(Arguments* input, Reply* output);
+        void setSoftLimitsP(Arguments* input, Reply* output);
         void printGains();
         
         void setTargetingK(Arguments* input, Reply* output);
