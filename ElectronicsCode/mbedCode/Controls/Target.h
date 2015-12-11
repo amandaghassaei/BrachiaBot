@@ -85,10 +85,10 @@ class Target{
             float desiredTargetApproachDirection = targetDirection(_position);
             if (desiredTargetApproachDirection != 0 && targetApproachDir != desiredTargetApproachDirection) return false;            
             
-            float th1Rel = boundTheta(th1);
+//            float th1Rel = boundTheta(th1);
             
-            if (targetApproachDir*th1Rel > targetApproachDir*th1Final-M_PI/4) return false;        
-            if (targetApproachDir*th1Rel > targetApproachDir*th1Final-M_PI/3) return true;
+            if (targetApproachDir*th1 > targetApproachDir*th1Final-M_PI/4) return false;        
+            if (targetApproachDir*th1 > targetApproachDir*th1Final-M_PI/3) return true;
             return false;
         }
         
