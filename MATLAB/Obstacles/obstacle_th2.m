@@ -1,6 +1,6 @@
 function th_des = obstacle_th2(z, p, th_des_input)
 
-    safe_rad = 0.07;
+    safe_rad = 0.02;
     th2_min_min = pi-2*asin((p(10)-safe_rad)/(2*p(1)));
     th2_min_max = pi-2*asin((p(10)*sqrt(2)-safe_rad)/(2*p(1)));
     

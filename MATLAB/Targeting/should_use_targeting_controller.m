@@ -11,7 +11,7 @@ function use_targeting = should_use_targeting_controller(z, p)
     
     th2_final = final_angle_th2(z, p(11), p(10), p(1));
     th1_final = final_angle_th1(z, p(11), p(10), p(1));
-    dth1_final = 6;
+    dth1_final = 2;
     
     E_des = energy_brachia_bot([th1_final; th2_final; dth1_final; 0], p);
     

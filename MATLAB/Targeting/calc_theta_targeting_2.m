@@ -36,8 +36,8 @@ function force = calc_theta_targeting_2(z, p, should_print)
     yUnit = y/distance;
     dDistance = gripper_velocity(1)*xUnit + gripper_velocity(2)*yUnit;
     
-    K = 0.7;%10000;
-    D = 0.06;%1000;
+    K = 10000;
+    D = 1000;
     
     F = (K*distance - D*dDistance)*[xUnit; yUnit];
     if (should_print)

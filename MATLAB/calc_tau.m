@@ -32,23 +32,23 @@ function tau = calc_tau(z, p, t)
         is_targeting = false;
 %         t
     elseif t>1 && (is_targeting || should_use_targeting_controller(z, p))
-%         distance = abs(final_angle_th1(z, p(11), p(10), p(1)) - th1);
+        distance = abs(final_angle_th1(z, p(11), p(10), p(1)) - th1);
 %         Kamp = 10-9*distance;
 %         if Kamp < 1
 %             Kamp = 1;
 %         end
 %         K = Kamp*K;
 %         D = Kamp*10;
-        if (is_targeting == 0)
+%         if (is_targeting == 0)
 %             a = t
 %             dth1
-        end
+%         end
         force = calc_theta_targeting_2(z, p, is_targeting == 0);
         is_targeting = 1;
         
     else
-        th2_des = theta_desired(-2.5, 2.5, th1, th2, dth1, dth2);%143 degrees soft stop
-        th2_des = obstacle_th2(z, p, th2_des);
+        th2_des = theta_desired(-2.35, 2.35, th1, th2, dth1, dth2);%143 degrees soft stop
+%         th2_des = obstacle_th2(z, p, th2_des);
         [K, D] = calculate_swing_up_gains(z, p, th2_des);
         force = K*(th2_des - th2) - D*dth2;
     end

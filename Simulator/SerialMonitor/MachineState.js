@@ -15,6 +15,7 @@ define(['underscore', 'backbone'], function(_, Backbone){
             swingUpK: null,
             swingUpD: null,
             desiredThetaP: null,
+            softLimitsP: null,
             targetingK: null,
             targetingD: null
         },
