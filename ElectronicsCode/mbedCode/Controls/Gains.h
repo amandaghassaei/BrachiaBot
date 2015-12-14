@@ -11,9 +11,9 @@ class Gains {
             setSwingUpK(30);
             setSwingUpD(4);
             setDesiredThetaP(0.03);
-            setSoftLimitsP(1);
-            setTargetingK(30);
-            setTargetingD(4);
+            setSoftLimitsP(0.3);
+            setTargetingK(15);
+            setTargetingD(2);
         }
         
         void setPC(Serial *pc){

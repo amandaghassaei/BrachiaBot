@@ -24,20 +24,20 @@ float calcTau(float output[2], volatile float z[4], float p[10], Gains *gains, T
     
     
     float force = 0;
-    if (target->getTargetingStarted() || target->shouldSwitchToTargetingController(z, p)) {
+    if (target->getTargetingStarted() && target->shouldOverrideTargetingMode(z, p)){
+        target->setTargetingStarted(false);
+    } else if (target->getTargetingStarted() || target->shouldSwitchToTargetingController(z, p)) {
         target->setTargetingStarted(true);
-        float th2Des = target->getFinalTh2(z);
         float K = gains->getTargetingK();
         float D = gains->getTargetingD();
-        force = K*(th2Des - th2) - D*dth2;
-////        force = target->calcTargetingForce(z, p, K, D);
+        force = target->calcTargetingForce(z, p, K, D);
     } else {
         float K = gains->getSwingUpK();
         float D = gains->getSwingUpD();
-        float softLimit = 2.35;//2.5;//143 degrees
+        float softLimit = 2.3;//2.5;//143 degrees
 //        float th2Des = output[1];
 //        if (abs(dth1)>3.0) 
-        float th2Des = thetaDesiredForSwingUp(-softLimit, softLimit, z);
+        float th2Des = thetaDesiredForSwingUp(-0.0, softLimit, z);
 //        th2Des = obstacleAvoidance(z, p, th2Des);
         float P = overallGainForSwingUp(z, th2Des, gains);
         force = P*(K*(th2Des - th2) - D*dth2);//AHat*
