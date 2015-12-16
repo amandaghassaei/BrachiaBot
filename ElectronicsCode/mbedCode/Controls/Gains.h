@@ -10,7 +10,7 @@ class Gains {
         Gains(){
             setSwingUpK(30);
             setSwingUpD(4);
-            setDesiredThetaP(0.03);
+            setDesiredThetaP(0.3);
             setSoftLimitsP(0.3);
             setTargetingK(15);
             setTargetingD(2);

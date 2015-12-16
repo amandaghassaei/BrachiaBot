@@ -24,25 +24,25 @@ float calcTau(float output[2], volatile float z[4], float p[10], Gains *gains, T
     
     
     float force = 0;
-    if (target->getTargetingStarted() && target->shouldOverrideTargetingMode(z, p)){
-        target->setTargetingStarted(false);
-    } else if (target->getTargetingStarted() || target->shouldSwitchToTargetingController(z, p)) {
-        target->setTargetingStarted(true);
-        float K = gains->getTargetingK();
-        float D = gains->getTargetingD();
-        force = target->calcTargetingForce(z, p, K, D);
-    } else {
+//    if (target->getTargetingStarted() && target->shouldOverrideTargetingMode(z, p)){
+//        target->setTargetingStarted(false);
+//    } else if (target->getTargetingStarted() || target->shouldSwitchToTargetingController(z, p)) {
+//        target->setTargetingStarted(true);
+//        float K = gains->getTargetingK();
+//        float D = gains->getTargetingD();
+//        force = target->calcTargetingForce(z, p, K, D);
+//    } else {
         float K = gains->getSwingUpK();
         float D = gains->getSwingUpD();
         float softLimit = 2.3;//2.5;//143 degrees
 //        float th2Des = output[1];
 //        if (abs(dth1)>3.0) 
-        float th2Des = thetaDesiredForSwingUp(-0.0, softLimit, z);
-//        th2Des = obstacleAvoidance(z, p, th2Des);
+        float th2Des = thetaDesiredForSwingUp(-softLimit, softLimit, z);
+        th2Des = obstacleAvoidance(z, p, th2Des);
         float P = overallGainForSwingUp(z, th2Des, gains);
         force = P*(K*(th2Des - th2) - D*dth2);//AHat*
 //        output[1] = th2Des;
-    }
+//    }
 
 //    output[0] = force + corrCentripCompHat + gravityCompHat;
     return force + corrCentripCompHat + gravityCompHat;
@@ -53,7 +53,7 @@ float obstacleAvoidance(volatile float z[4], float p[10], float theta){
     float armLength = p[0];
     float latticePitch = p[9];
     
-    float safeRad = 0.08;
+    float safeRad = 0.02;
     float th2MinMin = M_PI-2.0*asin((latticePitch-safeRad)/(2.0*armLength));
     float th2MinMax = M_PI-2.0*asin((latticePitch*sqrt(2.0)-safeRad)/(2.0*armLength));
     
