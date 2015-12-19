@@ -8,7 +8,15 @@ function Rungs(three){
     var rungSpacing = 350;
     var rungRadius = 11;
 
-    var rungsMaterial = new THREE.MeshLambertMaterial({color:"#ff0000"});
+    var rungsMaterial = new THREE.MeshPhongMaterial({
+        color:0xff0000,
+        envMap:textureCube,
+        normalMap: texture,
+        reflectivity: 0.9,
+        normalScale: new THREE.Vector2(0.2, 0.2)
+    });
+
+//    var rungsMaterial = new THREE.MeshLambertMaterial({color:"#ff0000"});
     for (var i=-1;i<2;i++){
         for (var j=-1;j<2;j++){
             var mesh = this.buildMesh(rungsMaterial);

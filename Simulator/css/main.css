@@ -39,7 +39,8 @@ body{
     height: 100%;
     background: rgba(255, 255, 255, 0.8);
     top: 0;
-    right: 0;
+    /*right: 0;*/
+    right: -430px;
     position: absolute;
     z-index: 2;
 }
