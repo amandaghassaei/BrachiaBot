@@ -20,10 +20,10 @@ $( document ).ready(function() {
     var loader = new THREE.STLLoader();
     var arm1 = new Arm1(threeModel);
     var arm2 = new Arm2(threeModel);
-    loader.load( 'Simulator/assets/stls/arm1.stl', function ( geometry ) {
+    loader.load( 'Simulator/assets/stls/arm1.STL', function ( geometry ) {
         arm1.setGeo(geometry);
     } );
-    loader.load( 'Simulator/assets/stls/arm2.stl', function ( geometry ) {
+    loader.load( 'Simulator/assets/stls/arm2.STL', function ( geometry ) {
         arm2.setGeo(geometry);
     } );
 
